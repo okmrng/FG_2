@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    Rigidbody2D ridid2d;
+
     public float moveSpeed = 5.0f;  // 移動速度
     public float jumpForce = 10.0f; // ジャンプの力
-    Rigidbody2D ridid2d;
+    public int HP = 5;
 
     void Start()
     {
@@ -24,6 +26,17 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+
+        // デバッグ
+        Debug.Log(HP);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            HP -= 1;
         }
     }
 }

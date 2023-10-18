@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public float moveSpeed = 5.0f;  // 移動速度
     public float jumpForce = 10.0f; // ジャンプの力
+    bool canJanp = false;
 
     public int HP = 5;
     public GameObject[] hpIcons; // HPのアイコン
@@ -27,15 +28,17 @@ public class PlayerController : MonoBehaviour
         ridid2d.velocity = new Vector2(horizontalInput * moveSpeed, ridid2d.velocity.y);
 
         // ジャンプ
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canJanp == true)
         {
             ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            canJanp = false;
         }
 
         UpdateHpIcons();
 
         // デバッグ
-        Debug.Log(HP);
+        Debug.Log("HP:" + HP);
+        Debug.Log("ジャンプフラグ" + canJanp);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -44,6 +47,15 @@ public class PlayerController : MonoBehaviour
         {
             HP -= 1;
             damage += 1;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+
+        if (other.gameObject.tag == "Ground")
+        {
+            canJanp = true;
         }
     }
 

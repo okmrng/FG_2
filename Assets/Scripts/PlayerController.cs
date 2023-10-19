@@ -7,10 +7,23 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D ridid2d;
 
-    public float moveSpeed = 5.0f;  // 移動速度
-    public float jumpForce = 10.0f; // ジャンプの力
-    bool canJanp = false;
+    public float moveSpeed = 5.0f; // 移動速度
+    
+    // ダッシュ
+    float dashSpeed = 0.0f;         // ダッシュの速度
+    public float dashPower = 20.0f; // ダッシュの速度
+    bool canDash = false;
+    float dashTimer = 0;
+    public float dashTimerStatus = 0.5f;
+    float dashCoolTime = 0;
+    public float dashCoolTimeStatus = 0.5f;
 
+    // ジャンプ
+    public float jumpForce = 10.0f; // ジャンプ
+    bool canJanp = false;
+    bool canPushJanp = true;
+
+    // HP
     public int HP = 5;
     public GameObject[] hpIcons; // HPのアイコン
     int damage = 0;
@@ -23,22 +36,64 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 左右の移動
-        float horizontalInput = Input.GetAxis("Horizontal");
-        ridid2d.velocity = new Vector2(horizontalInput * moveSpeed, ridid2d.velocity.y);
+        // 移動
+        Move();
 
         // ジャンプ
-        if (Input.GetKeyDown(KeyCode.Space) && canJanp == true)
+        if (canPushJanp)
         {
-            ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            canJanp = false;
+            if (Input.GetKeyDown(KeyCode.Space) && canJanp == true)
+            {
+                ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                canJanp = false;
+            }
         }
 
         UpdateHpIcons();
 
         // デバッグ
-        Debug.Log("HP:" + HP);
+        Debug.Log(dashTimer);
         Debug.Log("ジャンプフラグ" + canJanp);
+    }
+
+
+    void Move()
+    {
+        // 左右のベクトルを取得
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        // ダッシュ
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (dashCoolTime < 0)
+            {
+                canDash = true;
+            }
+        }
+        else { canDash = false; }
+
+        if (canDash)
+        {
+            canPushJanp = false;
+            dashSpeed = dashPower;
+            ridid2d.velocity = new Vector2(horizontalInput * dashSpeed, 0);
+
+            // ダッシュ終わり
+            dashTimer -= Time.deltaTime;
+            if (dashTimer < 0)
+            {
+                dashCoolTime = dashCoolTimeStatus;
+                canDash = false;
+            }
+        }
+        else
+        {
+            canPushJanp = true;
+            dashTimer = dashTimerStatus;
+            dashCoolTime -= Time.deltaTime;
+            // 左右移動
+            ridid2d.velocity = new Vector2(horizontalInput * moveSpeed, ridid2d.velocity.y);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -52,7 +107,6 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-
         if (other.gameObject.tag == "Ground")
         {
             canJanp = true;

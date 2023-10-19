@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public float dashTimerStatus = 0.5f;
     float dashCoolTime = 0;
     public float dashCoolTimeStatus = 0.5f;
+    bool canPushDash = true;
 
     // ジャンプ
     public float jumpForce = 10.0f; // ジャンプ
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
         // デバッグ
         Debug.Log(dashTimer);
-        Debug.Log("ジャンプフラグ" + canJanp);
+        Debug.Log("ダッシュフラグ" + canPushDash);
     }
 
 
@@ -63,14 +64,26 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
 
         // ダッシュ
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (canPushDash)
         {
-            if (dashCoolTime < 0)
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
-                canDash = true;
+                canPushDash = false;
+
+                if (dashCoolTime < 0)
+                {
+                    canDash = true;
+                }
+            }
+            else
+            {
+                canDash = false;
             }
         }
-        else { canDash = false; }
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            canPushDash = true;
+        }
 
         if (canDash)
         {

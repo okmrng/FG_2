@@ -7,8 +7,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D ridid2d;
-
     GameObject director;
+    GameObject playerAttack;
+    GameObject playerBreakAttack;
 
     public float moveSpeed = 5.0f; // ˆÚ“®‘¬“x
 
@@ -34,9 +35,14 @@ public class PlayerController : MonoBehaviour
     // UŒ‚
     bool isAttack = false;                // UŒ‚ƒtƒ‰ƒO
     public int attackPower = 5;           // ƒpƒ[
-    GameObject playerAttack;
     float attackEndTime = 0;              // UŒ‚ŠÔ
     public float attackEndTimeStatus = 1; // UŒ‚ŠÔ
+
+    // ”j‰óUŒ‚
+    bool isBreak = false;                   // ”j‰óUŒ‚ƒtƒ‰ƒO
+    public int breakPower = 10;             // ”j‰óƒpƒ[
+    float breakEndTime = 0;                 // ”j‰óŠÔ
+    public float breakEndTimeStatus = 1.2f; // ”j‰óŠÔ
 
     // Œü‚«
     float distance = 0;
@@ -44,10 +50,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
-
         director = GameObject.Find("gameDirector");
-
         playerAttack = GameObject.Find("playerAttack");
+        playerBreakAttack = GameObject.Find("playerBreakAttack");
     }
 
     // Update is called once per frame
@@ -72,7 +77,8 @@ public class PlayerController : MonoBehaviour
         director.GetComponent<GameDirector>().HpIcons(damage);
 
         // UŒ‚
-        Attack();
+        //Attack();
+        Break();
 
         // Œü‚«
         Distance();
@@ -149,7 +155,7 @@ public class PlayerController : MonoBehaviour
         playerAttack.transform.position = 
             new Vector3(transform.position.x + 0.8f, transform.position.y, transform.position.z);
         
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.Z))
         {
             isAttack = true;
         }
@@ -168,6 +174,34 @@ public class PlayerController : MonoBehaviour
         {
             playerAttack.SetActive(false);
             attackEndTime = attackEndTimeStatus;
+        }
+    }
+
+    // ”j‰óUŒ‚ƒƒ\ƒbƒh
+    void Break()
+    {
+        playerBreakAttack.transform.position =
+           new Vector3(transform.position.x + 0.95f, transform.position.y + 0.3f, transform.position.z);
+
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            isBreak = true;
+        }
+
+        if (isBreak)
+        {
+            playerBreakAttack.SetActive(true);
+
+            breakEndTime -= Time.deltaTime;
+            if (breakEndTime < 0)
+            {
+                isBreak = false;
+            }
+        }
+        else
+        {
+            playerBreakAttack.SetActive(false);
+            breakEndTime = breakEndTimeStatus;
         }
     }
 

@@ -221,11 +221,16 @@ public class PlayerController : MonoBehaviour
             {
                 playerAttack.transform.position = new Vector3(playerAttack.transform.position.x, 
                     playerAttack.transform.position.y, playerAttack.transform.position.z);
+                playerBreakAttack.transform.position = new Vector3(playerBreakAttack.transform.position.x,
+                    playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
             }
             else if (distance == -0.8f)
             {
                 playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
                     playerAttack.transform.position.y, playerAttack.transform.position.z);
+                playerBreakAttack.transform.position = 
+                    new Vector3(playerBreakAttack.transform.position.x - 1.9f,
+                    playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
             }
         }
     }

@@ -30,11 +30,14 @@ public class PlayerController : MonoBehaviour
     int damage = 0;
 
     // 攻撃
-    bool isAttack = false;      // 攻撃フラグ
-    public int attackPower = 5; // パワー
+    bool isAttack = false;                // 攻撃フラグ
+    public int attackPower = 5;           // パワー
     GameObject playerAttack;
-    float attackEndTime = 0;       // 攻撃時間
+    float attackEndTime = 0;              // 攻撃時間
     public float attackEndTimeStatus = 1; // 攻撃時間
+
+    // 向き
+    float distance = 0;
 
     void Start()
     {
@@ -67,10 +70,12 @@ public class PlayerController : MonoBehaviour
         // 攻撃
         Attack();
 
+        // 向き
+        Distance();
+
         // デバッグ
         Debug.Log(dashTimer);
         Debug.Log(isGround);
-
     }
 
 
@@ -175,6 +180,31 @@ public class PlayerController : MonoBehaviour
         {
             playerAttack.SetActive(false);
             attackEndTime = attackEndTimeStatus;
+        }
+    }
+
+    // 向き
+    void Distance()
+    {
+        // キー入力で左右の向きか取得
+        if (Input.GetKey(KeyCode.RightArrow)) distance = 0.8f;
+        if (Input.GetKey(KeyCode.LeftArrow)) distance = -0.8f;
+
+        if (distance != 0)
+        {
+            transform.localScale = new Vector3(distance, 1.5f, 1);
+
+            // 攻撃の向き
+            if (distance == 0.8f)
+            {
+                playerAttack.transform.position = new Vector3(playerAttack.transform.position.x, 
+                    playerAttack.transform.position.y, playerAttack.transform.position.z);
+            }
+            else if (distance == -0.8f)
+            {
+                playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
+                    playerAttack.transform.position.y, playerAttack.transform.position.z);
+            }
         }
     }
 }

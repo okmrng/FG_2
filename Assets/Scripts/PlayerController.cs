@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D ridid2d;
+
+    GameObject director;
 
     public float moveSpeed = 5.0f; // 移動速度
 
@@ -26,7 +29,6 @@ public class PlayerController : MonoBehaviour
 
     // HP
     public int HP = 5;
-    public GameObject[] hpIcons; // HPのアイコン
     int damage = 0;
 
     // 攻撃
@@ -42,6 +44,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
+
+        director = GameObject.Find("gameDirector");
 
         playerAttack = GameObject.Find("playerAttack");
     }
@@ -65,7 +69,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // HPアイコン
-        UpdateHpIcons();
+        director.GetComponent<GameDirector>().HpIcons(damage);
 
         // 攻撃
         Attack();
@@ -75,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
         // デバッグ
         Debug.Log(dashTimer);
-        Debug.Log(isGround);
+        Debug.Log("ダメージ" + damage);
     }
 
 
@@ -130,28 +134,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Enemy")
         {
             HP -= 1;
             damage += 1;
-        }
-    }
-
-    // 自機の残機数を表示するメソッド
-    void UpdateHpIcons()
-    {
-        for (int i = 0; i < hpIcons.Length; i++)
-        {
-            if (damage <= i)
-            {
-                hpIcons[i].SetActive(true);
-            }
-            else
-            {
-                hpIcons[i].SetActive(false);
-            }
         }
     }
 

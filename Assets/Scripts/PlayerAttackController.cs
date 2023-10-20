@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerAttackController : MonoBehaviour
 { 
-    // アビリティゲージ
-    GameObject director;
+    GameObject director; // アビリティゲージ
 
     // Start is called before the first frame update
     void Start()

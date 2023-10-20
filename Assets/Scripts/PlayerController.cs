@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D ridid2d;
 
     public float moveSpeed = 5.0f; // 移動速度
-    
+
     // ダッシュ
     float dashSpeed = 0.0f;         // ダッシュの速度
     public float dashPower = 20.0f; // ダッシュの速度
@@ -21,17 +21,26 @@ public class PlayerController : MonoBehaviour
 
     // ジャンプ
     public float jumpForce = 10.0f; // ジャンプ
-    bool canJanp = false;
     bool canPushJanp = true;
+    bool isGround = false;
 
     // HP
     public int HP = 5;
     public GameObject[] hpIcons; // HPのアイコン
     int damage = 0;
 
+    // 攻撃
+    bool isAttack = false;      // 攻撃フラグ
+    public int attackPower = 5; // パワー
+    GameObject playerAttack;
+    float attackEndTime = 0;       // 攻撃時間
+    public float attackEndTimeStatus = 1; // 攻撃時間
+
     void Start()
     {
-        this.ridid2d = GetComponent<Rigidbody2D>(); 
+        this.ridid2d = GetComponent<Rigidbody2D>();
+
+        playerAttack = GameObject.Find("playerAttack");
     }
 
     // Update is called once per frame
@@ -41,20 +50,27 @@ public class PlayerController : MonoBehaviour
         Move();
 
         // ジャンプ
+        isGround = false;
+        isGround = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
+
         if (canPushJanp)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && canJanp == true)
+            if (Input.GetKeyDown(KeyCode.Space) && isGround)
             {
                 ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                canJanp = false;
             }
         }
 
+        // HPアイコン
         UpdateHpIcons();
+
+        // 攻撃
+        Attack();
 
         // デバッグ
         Debug.Log(dashTimer);
-        Debug.Log("ダッシュフラグ" + canPushDash);
+        Debug.Log(isGround);
+
     }
 
 
@@ -118,14 +134,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Ground")
-        {
-            canJanp = true;
-        }
-    }
-
     // 自機の残機数を表示するメソッド
     void UpdateHpIcons()
     {
@@ -139,6 +147,34 @@ public class PlayerController : MonoBehaviour
             {
                 hpIcons[i].SetActive(false);
             }
+        }
+    }
+
+    // 攻撃メソッド
+    void Attack()
+    {
+        playerAttack.transform.position = 
+            new Vector3(transform.position.x + 0.8f, transform.position.y, transform.position.z);
+        
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            isAttack = true;
+        }
+
+        if (isAttack)
+        {
+            playerAttack.SetActive(true);
+
+            attackEndTime -= Time.deltaTime;
+            if (attackEndTime < 0)
+            {
+                isAttack = false;
+            }
+        }
+        else
+        {
+            playerAttack.SetActive(false);
+            attackEndTime = attackEndTimeStatus;
         }
     }
 }

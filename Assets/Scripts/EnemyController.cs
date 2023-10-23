@@ -33,5 +33,9 @@ public class EnemyController : MonoBehaviour
         {
             HP -= playerScript.attackPower;
         }
+        if (other.gameObject.tag == "PlayerBreakAttack")
+        {
+            HP -= playerScript.breakPower;
+        }
     }
 }

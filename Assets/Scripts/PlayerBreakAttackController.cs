@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackController : MonoBehaviour
+public class PlayerBreakAttackController : MonoBehaviour
 { 
     GameObject director; // 監督オブジェクト
 

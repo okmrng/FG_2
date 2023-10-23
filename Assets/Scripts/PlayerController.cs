@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     GameObject director;
     GameObject playerAttack;
     GameObject playerBreakAttack;
+    public GameObject[] abilityStopObj;
 
     public float moveSpeed = 5.0f; // 移動速度
 
@@ -125,6 +126,9 @@ public class PlayerController : MonoBehaviour
 
         // 向き
         Distance();
+
+        // アビリティ
+        Ability();
 
         // デバッグ
         Debugg();
@@ -280,6 +284,20 @@ public class PlayerController : MonoBehaviour
             playerBreakAttack.transform.position =
                 new Vector3(playerBreakAttack.transform.position.x - 1.9f,
                 playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
+        }
+    }
+
+    // アビリティ
+    void Ability()
+    {
+        // 動きを止める
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            for (int i = 0;i < abilityStopObj.Length; i++)
+            {
+                abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = true;
+            }
         }
     }
 

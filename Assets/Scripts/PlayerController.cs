@@ -44,6 +44,12 @@ public class PlayerController : MonoBehaviour
     float breakEndTime = 0;                 // 破壊時間
     public float breakEndTimeStatus = 1.2f; // 破壊時間
 
+    int attackMode = 0;           // 0 = 無し、1 = 通常攻撃、2 = 破壊攻撃
+    bool attackModeChange = true; // 攻撃変化フラグ
+
+    public float attackChargeMax = 3; // チャージ時間
+    float attackCharge = 0;           // チャージ時間
+
     // 向き
     float distance = 0;
 
@@ -53,6 +59,7 @@ public class PlayerController : MonoBehaviour
         director = GameObject.Find("gameDirector");
         playerAttack = GameObject.Find("playerAttack");
         playerBreakAttack = GameObject.Find("playerBreakAttack");
+        playerBreakAttack.SetActive(false);
     }
 
     // Update is called once per frame
@@ -77,8 +84,44 @@ public class PlayerController : MonoBehaviour
         director.GetComponent<GameDirector>().HpIcons(damage);
 
         // 攻撃
-        Attack();
-        //Break();
+        if (attackMode == 1)
+        {
+            Attack();
+        }
+        else if (attackMode == 2)
+        {
+            Break();
+        }
+        else if (attackMode == 0)
+        {
+            //playerBreakAttack.SetActive(false);
+        }
+
+        // チャージ
+        if (attackModeChange)
+        {
+            if (Input.GetKey(KeyCode.Z))
+            {
+                attackCharge += Time.deltaTime;
+            }
+            else { attackCharge = 0; }
+
+            if (attackCharge < attackChargeMax)
+            {
+                // 通常攻撃
+                attackMode = 1;
+            }
+            else if (attackCharge >= attackChargeMax)
+            {
+                // 破壊攻撃
+                attackMode = 2;
+            }
+            else
+            {
+                // 攻撃なし
+                attackMode = 0;
+            }
+        }
 
         // 向き
         Distance();
@@ -87,7 +130,7 @@ public class PlayerController : MonoBehaviour
         Debugg();
     }
 
-
+    // 移動
     void Move()
     {
         // 左右のベクトルを取得
@@ -161,6 +204,8 @@ public class PlayerController : MonoBehaviour
 
         if (isAttack)
         {
+            attackModeChange = false;
+
             playerAttack.SetActive(true);
 
             attackEndTime -= Time.deltaTime;
@@ -171,6 +216,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            attackModeChange = true;
             playerAttack.SetActive(false);
             attackEndTime = attackEndTimeStatus;
         }
@@ -189,6 +235,8 @@ public class PlayerController : MonoBehaviour
 
         if (isBreak)
         {
+            attackModeChange = false;
+
             playerBreakAttack.SetActive(true);
 
             breakEndTime -= Time.deltaTime;
@@ -199,6 +247,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            attackModeChange = true;
             playerBreakAttack.SetActive(false);
             breakEndTime = breakEndTimeStatus;
         }
@@ -217,21 +266,21 @@ public class PlayerController : MonoBehaviour
         }
 
         // 攻撃の向き
-        //if (distance == 0.8f)
-        //{
-        //    playerAttack.transform.position = new Vector3(playerAttack.transform.position.x,
-        //        playerAttack.transform.position.y, playerAttack.transform.position.z);
-        //    playerBreakAttack.transform.position = new Vector3(playerBreakAttack.transform.position.x,
-        //        playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
-        //}
-        //else if (distance == -0.8f)
-        //{
-        //    playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
-        //    playerAttack.transform.position.y, playerAttack.transform.position.z);
-        //    playerBreakAttack.transform.position =
-        //        new Vector3(playerBreakAttack.transform.position.x - 1.9f,
-        //        playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
-        //}
+        if (distance == 0.8f)
+        {
+            playerAttack.transform.position = new Vector3(playerAttack.transform.position.x,
+                playerAttack.transform.position.y, playerAttack.transform.position.z);
+            playerBreakAttack.transform.position = new Vector3(playerBreakAttack.transform.position.x,
+                playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
+        }
+        else if (distance == -0.8f)
+        {
+            playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
+            playerAttack.transform.position.y, playerAttack.transform.position.z);
+            playerBreakAttack.transform.position =
+                new Vector3(playerBreakAttack.transform.position.x - 1.9f,
+                playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
+        }
     }
 
     // デバッグ
@@ -241,5 +290,6 @@ public class PlayerController : MonoBehaviour
         Debug.Log(dashTimer);
         Debug.Log("ダメージ" + damage);
         Debug.Log("向き変数" +  distance);
+        Debug.Log("チャージ量" +  attackCharge);
     }
 }

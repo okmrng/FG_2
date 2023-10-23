@@ -54,6 +54,11 @@ public class PlayerController : MonoBehaviour
     // 向き
     float distance = 0;
 
+    // アビリティ
+    bool onAbility = false;       // アビリティ発動
+    bool isAbilityAttack = false; // 攻撃効果
+    bool isAbilityHeal = false;   // 回復効果
+
     void Start()
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
@@ -290,14 +295,41 @@ public class PlayerController : MonoBehaviour
     // アビリティ
     void Ability()
     {
-        // 動きを止める
         if (Input.GetKeyDown(KeyCode.X))
         {
-            for (int i = 0;i < abilityStopObj.Length; i++)
+            onAbility = true;
+        }
+
+        if (onAbility)
+        {
+            // 動きを止める
+            for (int i = 0; i < abilityStopObj.Length; i++)
             {
                 abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = true;
             }
+
+            // 効果選択
+            Debug.Log("効果を選んでね！\nA:攻撃 D:回復");
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                isAbilityAttack = true;
+            }
+            else if(Input.GetKeyDown(KeyCode.B))
+            {
+                isAbilityHeal = true;
+            }
+        }
+
+        // 攻撃
+        if (isAbilityAttack)
+        {
+            Debug.Log("攻撃");
+        }
+        else if (isAbilityHeal)
+        {
+            Debug.Log("回復");
         }
     }
 
@@ -305,9 +337,9 @@ public class PlayerController : MonoBehaviour
     void Debugg()
     {
         // デバッグ
-        Debug.Log(dashTimer);
-        Debug.Log("ダメージ" + damage);
-        Debug.Log("向き変数" +  distance);
-        Debug.Log("チャージ量" +  attackCharge);
+        //Debug.Log(dashTimer);
+        //Debug.Log("ダメージ" + damage);
+        //Debug.Log("向き変数" +  distance);
+        //Debug.Log("チャージ量" +  attackCharge);
     }
 }

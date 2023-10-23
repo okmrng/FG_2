@@ -77,15 +77,14 @@ public class PlayerController : MonoBehaviour
         director.GetComponent<GameDirector>().HpIcons(damage);
 
         // 攻撃
-        //Attack();
-        Break();
+        Attack();
+        //Break();
 
         // 向き
         Distance();
 
         // デバッグ
-        Debug.Log(dashTimer);
-        Debug.Log("ダメージ" + damage);
+        Debugg();
     }
 
 
@@ -215,23 +214,32 @@ public class PlayerController : MonoBehaviour
         if (distance != 0)
         {
             transform.localScale = new Vector3(distance, 1.5f, 1);
-
-            // 攻撃の向き
-            if (distance == 0.8f)
-            {
-                playerAttack.transform.position = new Vector3(playerAttack.transform.position.x, 
-                    playerAttack.transform.position.y, playerAttack.transform.position.z);
-                playerBreakAttack.transform.position = new Vector3(playerBreakAttack.transform.position.x,
-                    playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
-            }
-            else if (distance == -0.8f)
-            {
-                playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
-                    playerAttack.transform.position.y, playerAttack.transform.position.z);
-                playerBreakAttack.transform.position = 
-                    new Vector3(playerBreakAttack.transform.position.x - 1.9f,
-                    playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
-            }
         }
+
+        // 攻撃の向き
+        //if (distance == 0.8f)
+        //{
+        //    playerAttack.transform.position = new Vector3(playerAttack.transform.position.x,
+        //        playerAttack.transform.position.y, playerAttack.transform.position.z);
+        //    playerBreakAttack.transform.position = new Vector3(playerBreakAttack.transform.position.x,
+        //        playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
+        //}
+        //else if (distance == -0.8f)
+        //{
+        //    playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
+        //    playerAttack.transform.position.y, playerAttack.transform.position.z);
+        //    playerBreakAttack.transform.position =
+        //        new Vector3(playerBreakAttack.transform.position.x - 1.9f,
+        //        playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
+        //}
+    }
+
+    // デバッグ
+    void Debugg()
+    {
+        // デバッグ
+        Debug.Log(dashTimer);
+        Debug.Log("ダメージ" + damage);
+        Debug.Log("向き変数" +  distance);
     }
 }

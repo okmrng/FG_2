@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     GameObject playerAttack;
     GameObject playerBreakAttack;
     public GameObject[] abilityStopObj;
+    GameObject abilityChoose;
 
     public float moveSpeed = 5.0f; // 移動速度
 
@@ -66,6 +67,8 @@ public class PlayerController : MonoBehaviour
         playerAttack = GameObject.Find("playerAttack");
         playerBreakAttack = GameObject.Find("playerBreakAttack");
         playerBreakAttack.SetActive(false);
+        abilityChoose = GameObject.Find("abilityChoose");
+        abilityChoose.SetActive(false);
     }
 
     // Update is called once per frame
@@ -297,7 +300,10 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            onAbility = true;
+            if (!onAbility)
+            {
+                onAbility = true;
+            }
         }
 
         if (onAbility)
@@ -310,15 +316,20 @@ public class PlayerController : MonoBehaviour
             }
 
             // 効果選択
+            abilityChoose.SetActive(true);
             Debug.Log("効果を選んでね！\nA:攻撃 D:回復");
 
             if (Input.GetKeyDown(KeyCode.A))
             {
+                abilityChoose.SetActive(false);
                 isAbilityAttack = true;
+                onAbility = false;
             }
-            else if(Input.GetKeyDown(KeyCode.B))
+            else if(Input.GetKeyDown(KeyCode.D))
             {
+                abilityChoose.SetActive(false);
                 isAbilityHeal = true;
+                onAbility = false;
             }
         }
 

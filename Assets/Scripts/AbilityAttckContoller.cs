@@ -19,6 +19,11 @@ public class AbilityAttckContoller : MonoBehaviour
     void Update()
     {
         transform.Translate(speed, 0, 0);
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     // ‰æ–ÊŠO‚Éo‚½‚ç‰ğ•ú

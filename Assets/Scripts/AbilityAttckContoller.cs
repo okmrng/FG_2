@@ -24,7 +24,6 @@ public class AbilityAttckContoller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             GameObject abilityAttackRangeObj = Instantiate(abilityAttackRangePrefab);
-            gameObject.SetActive(false);
         }
     }
 

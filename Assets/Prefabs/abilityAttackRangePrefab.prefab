@@ -97,4 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebd48f67e7d9954a8779a7a55201801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityAttack: {fileID: 6106674225694241011, guid: 53ca706ed5cd295408b8496350762b3e, type: 3}
+  deathTime: 1

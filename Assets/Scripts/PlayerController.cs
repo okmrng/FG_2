@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     GameObject playerBreakAttack;
     public GameObject[] abilityStopObj;
     GameObject abilityChoose;
-    GameObject abilityAttack;
+    public GameObject abilityAttackPrefab;
 
     public float moveSpeed = 5.0f; // à⁄ìÆë¨ìx
 
@@ -70,8 +70,6 @@ public class PlayerController : MonoBehaviour
         playerBreakAttack.SetActive(false);
         abilityChoose = GameObject.Find("abilityChoose");
         abilityChoose.SetActive(false);
-        abilityAttack = GameObject.Find("abilityAttack");
-        abilityAttack.SetActive(false);
     }
 
     // Update is called once per frame
@@ -339,7 +337,8 @@ public class PlayerController : MonoBehaviour
         // çUåÇ
         if (isAbilityAttack)
         {
-            abilityAttack.SetActive(true);
+            GameObject attackAbilityObj = Instantiate(abilityAttackPrefab);
+            isAbilityAttack = false;
         }
         else if (isAbilityHeal)
         {

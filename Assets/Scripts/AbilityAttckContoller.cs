@@ -5,6 +5,7 @@ using UnityEngine;
 public class AbilityAttckContoller : MonoBehaviour
 {
     GameObject player; // ©‹@
+    public GameObject abilityAttackRangePrefab; // UŒ‚”ÍˆÍ
 
     public float speed = 3; // ‘¬“x
 
@@ -22,6 +23,7 @@ public class AbilityAttckContoller : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            GameObject abilityAttackRangeObj = Instantiate(abilityAttackRangePrefab);
             gameObject.SetActive(false);
         }
     }

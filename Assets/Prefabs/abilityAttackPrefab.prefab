@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6106674225694241013}
   - component: {fileID: 6106674225694241010}
+  - component: {fileID: -929025212999190623}
   m_Layer: 0
   m_Name: abilityAttackPrefab
   m_TagString: Untagged
@@ -84,3 +85,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-929025212999190623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6106674225694241011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b04fd9c1bcdccb44ad105298cba9835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.02

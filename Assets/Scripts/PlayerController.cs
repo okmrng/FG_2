@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject[] abilityStopObj;
     GameObject abilityChoose;
     public GameObject abilityAttackPrefab;
+    public GameObject abilityHealPrefab;
     GameObject abilityGage;
     GameDirector gameDirectorScript;
 
@@ -349,7 +350,8 @@ public class PlayerController : MonoBehaviour
         else if (isAbilityHeal)
         {
             abilityGage.GetComponent<Image>().fillAmount = 0;
-            Debug.Log("‰ñ•œ");
+            GameObject attackHealObj = Instantiate(abilityHealPrefab);
+            isAbilityHeal = false;
         }
     }
 

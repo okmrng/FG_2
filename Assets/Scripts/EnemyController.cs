@@ -8,8 +8,11 @@ public class EnemyController : MonoBehaviour
     PlayerController playerScript;                  // 自機のスクリプト
     public GameObject abilityAttackPrefab;          // アビリティの攻撃オブジェクトプレファブ
     AbilityAttackRangeController attackRangeScript; // アビリティの攻撃範囲のスクリプト
+    public GameObject abilityHealPrefab;            // アビリティの回復オブジェクトプレファブ
+    AbilityHealRangeController healRangeScript;   // アビリティの回復範囲のスクリプト
 
-    public int HP = 5;
+    public int HPMax = 30;
+    int HP = 30;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +20,7 @@ public class EnemyController : MonoBehaviour
         player = GameObject.Find("player");                                                   // オブジェクト
         playerScript = player.GetComponent<PlayerController>();                               // スクリプト
         attackRangeScript = abilityAttackPrefab.GetComponent<AbilityAttackRangeController>(); // アビリティの攻撃範囲のスクリプト
+        healRangeScript = abilityHealPrefab.GetComponent<AbilityHealRangeController>();       // アビリティの回復範囲のスクリプト
     }
 
     // Update is called once per frame
@@ -43,6 +47,14 @@ public class EnemyController : MonoBehaviour
         if(other.gameObject.tag == "PlayerAbilityAttack")
         {
             HP -= attackRangeScript.power;
+        }
+        if (other.gameObject.tag == "PlayerAbilityHeal")
+        {
+            HP += healRangeScript.heal;
+            if (HP >= HPMax)
+            {
+                HP = HPMax;
+            }
         }
     }
 }

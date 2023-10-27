@@ -15,6 +15,7 @@ public class GameDirector : MonoBehaviour
         abilityGage = GameObject.Find("abilityGage");
     }
 
+    // ƒQ[ƒW‚ğ—­‚ß‚é
     public void increaseAbility()
     {
         abilityGage.GetComponent<Image>().fillAmount += 0.1f;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public GameObject[] abilityStopObj;
     GameObject abilityChoose;
     public GameObject abilityAttackPrefab;
+    GameObject abilityGage;
+    GameDirector gameDirectorScript;
 
     public float moveSpeed = 5.0f; // à⁄ìÆë¨ìx
 
@@ -70,6 +73,8 @@ public class PlayerController : MonoBehaviour
         playerBreakAttack.SetActive(false);
         abilityChoose = GameObject.Find("abilityChoose");
         abilityChoose.SetActive(false);
+        abilityGage = GameObject.Find("abilityGage");
+        gameDirectorScript = GetComponent<GameDirector>();
     }
 
     // Update is called once per frame
@@ -301,7 +306,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            if (!onAbility)
+            if (!onAbility && abilityGage.GetComponent<Image>().fillAmount == 1)
             {
                 onAbility = true;
             }
@@ -337,11 +342,13 @@ public class PlayerController : MonoBehaviour
         // çUåÇ
         if (isAbilityAttack)
         {
+            abilityGage.GetComponent<Image>().fillAmount = 0;
             GameObject attackAbilityObj = Instantiate(abilityAttackPrefab);
             isAbilityAttack = false;
         }
         else if (isAbilityHeal)
         {
+            abilityGage.GetComponent<Image>().fillAmount = 0;
             Debug.Log("âÒïú");
         }
     }

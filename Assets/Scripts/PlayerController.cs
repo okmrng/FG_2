@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
                 canDash = false;
             }
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             canPushDash = true;
         }

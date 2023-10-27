@@ -8,6 +8,8 @@ public class AbilityAttackRangeController : MonoBehaviour
 
     public float deathTime = 2; // Á–Å‚Ü‚Å‚ÌŠÔ
 
+    public int power = 5; // UŒ‚—Í
+
     // Start is called before the first frame update
     void Start()
     {

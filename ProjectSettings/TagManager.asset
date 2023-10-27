@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - PlayerAttack
   - PlayerBreakAttack
+  - PlayerAbilityAttack
   layers:
   - Default
   - TransparentFX

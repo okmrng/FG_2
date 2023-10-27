@@ -19,12 +19,16 @@ public class AbilityAttckContoller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(speed, 0, 0);
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             GameObject abilityAttackRangeObj = Instantiate(abilityAttackRangePrefab);
         }
+    }
+
+    // ‘¬‚³ŒÅ’è
+    private void FixedUpdate()
+    {
+        transform.Translate(speed, 0, 0);
     }
 
     // ‰æ–ÊŠO‚Éo‚½‚ç‰ğ•ú

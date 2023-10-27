@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    GameObject player;             // 自機オブジェクト
-    PlayerController playerScript; // 自機のスクリプト
+    GameObject player;                              // 自機オブジェクト
+    PlayerController playerScript;                  // 自機のスクリプト
+    AbilityAttackRangeController attackRangeScript; // アビリティの攻撃範囲のスクリプト
 
     public int HP = 5;
 

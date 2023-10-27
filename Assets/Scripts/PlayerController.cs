@@ -81,8 +81,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 移動
-        Move();
+        if (!onAbility)
+        {
+            // 移動
+            Move();
+
+            // 向き
+            Distance();
+        }
 
         // ジャンプ
         isGround = false;
@@ -138,9 +144,6 @@ public class PlayerController : MonoBehaviour
                 attackMode = 0;
             }
         }
-
-        // 向き
-        Distance();
 
         // アビリティ
         Ability();

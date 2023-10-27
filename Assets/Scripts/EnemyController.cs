@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     GameObject player;                              // 自機オブジェクト
     PlayerController playerScript;                  // 自機のスクリプト
+    public GameObject abilityAttackPrefab;          // アビリティの攻撃オブジェクトプレファブ
     AbilityAttackRangeController attackRangeScript; // アビリティの攻撃範囲のスクリプト
 
     public int HP = 5;
@@ -13,8 +14,9 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("player");                     // オブジェクト
-        playerScript = player.GetComponent<PlayerController>(); // スクリプト
+        player = GameObject.Find("player");                                                   // オブジェクト
+        playerScript = player.GetComponent<PlayerController>();                               // スクリプト
+        attackRangeScript = abilityAttackPrefab.GetComponent<AbilityAttackRangeController>(); // アビリティの攻撃範囲のスクリプト
     }
 
     // Update is called once per frame
@@ -37,6 +39,10 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.tag == "PlayerBreakAttack")
         {
             HP -= playerScript.breakPower;
+        }
+        if(other.gameObject.tag == "PlayerAbilityAttack")
+        {
+            HP -= attackRangeScript.power;
         }
     }
 }

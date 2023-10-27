@@ -305,6 +305,9 @@ public class PlayerController : MonoBehaviour
     // アビリティ
     void Ability()
     {
+        abilityChoose.transform.position = 
+            new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+
         if (Input.GetKeyDown(KeyCode.X))
         {
             if (!onAbility && abilityGage.GetComponent<Image>().fillAmount == 1)

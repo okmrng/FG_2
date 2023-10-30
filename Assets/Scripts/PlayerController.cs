@@ -153,6 +153,7 @@ public class PlayerController : MonoBehaviour
                 attackMode = 0;
             }
         }
+        else { attackCharge = 0; }
 
         // アビリティ
         Ability();

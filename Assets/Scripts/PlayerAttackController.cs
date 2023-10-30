@@ -22,12 +22,12 @@ public class PlayerAttackController : MonoBehaviour
 
         if (playerScript.distance == 0.8f)
         {
-            transform.position = new Vector3(player.transform.position.x + 1, 
+            transform.position = new Vector3(player.transform.position.x + 0.8f, 
                 player.transform.position.y, player.transform.position.z);
         }
         else if(playerScript.distance == -0.8f)
         {
-            transform.position = new Vector3(player.transform.position.x + -1.58f,
+            transform.position = new Vector3(player.transform.position.x - 0.8f,
                player.transform.position.y, player.transform.position.z);
         }
     }

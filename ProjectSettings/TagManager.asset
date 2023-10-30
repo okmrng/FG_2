@@ -10,6 +10,7 @@ TagManager:
   - PlayerAttack
   - PlayerBreakAttack
   - PlayerAbilityAttack
+  - PlayerAbilityHeal
   layers:
   - Default
   - TransparentFX

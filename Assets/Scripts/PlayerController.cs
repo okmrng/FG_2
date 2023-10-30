@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D ridid2d;
     GameObject director;
-    GameObject playerAttack;
     GameObject playerBreakAttack;
     public GameObject[] abilityStopObj;
     GameObject abilityChoose;
@@ -17,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public GameObject abilityHealPrefab;
     GameObject abilityGage;
     GameDirector gameDirectorScript;
+    public GameObject playerAttackPrefab;
 
     public float moveSpeed = 5.0f; // 移動速度
 
@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
     // 攻撃
     bool isAttack = false;                // 攻撃フラグ
     public int attackPower = 5;           // パワー
-    float attackEndTime = 0;              // 攻撃時間
-    public float attackEndTimeStatus = 1; // 攻撃時間
 
     // 破壊攻撃
     bool isBreak = false;                   // 破壊攻撃フラグ
@@ -61,7 +59,7 @@ public class PlayerController : MonoBehaviour
     float attackCharge = 0;           // チャージ時間
 
     // 向き
-    float distance = 0;
+    public float distance = 0;
 
     // アビリティ
     bool onAbility = false;       // アビリティ発動
@@ -72,11 +70,10 @@ public class PlayerController : MonoBehaviour
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
         director = GameObject.Find("gameDirector");
-        playerAttack = GameObject.Find("playerAttack");
         playerBreakAttack = GameObject.Find("playerBreakAttack");
         playerBreakAttack.SetActive(false);
         abilityChoose = GameObject.Find("abilityChoose");
-        abilityChoose.SetActive(false);
+        //abilityChoose.SetActive(false);
         abilityGage = GameObject.Find("abilityGage");
         gameDirectorScript = GetComponent<GameDirector>();
     }
@@ -231,8 +228,8 @@ public class PlayerController : MonoBehaviour
     // 攻撃メソッド
     void Attack()
     {
-        playerAttack.transform.position = 
-            new Vector3(transform.position.x + 0.8f, transform.position.y, transform.position.z);
+        //playerAttack.transform.position = 
+        //    new Vector3(transform.position.x + 0.8f, transform.position.y, transform.position.z);
         
         if (Input.GetKeyUp(KeyCode.Z))
         {
@@ -243,19 +240,15 @@ public class PlayerController : MonoBehaviour
         {
             attackModeChange = false;
 
-            playerAttack.SetActive(true);
+            GameObject attackObj = Instantiate(playerAttackPrefab);
 
-            attackEndTime -= Time.deltaTime;
-            if (attackEndTime < 0)
-            {
-                isAttack = false;
-            }
+            isAttack = false;
+            
         }
         else
         {
             attackModeChange = true;
-            playerAttack.SetActive(false);
-            attackEndTime = attackEndTimeStatus;
+            //attackEndTime = attackEndTimeStatus;
         }
     }
 
@@ -308,29 +301,29 @@ public class PlayerController : MonoBehaviour
             }
 
             // 攻撃の向き
-            if (distance == 0.8f)
-            {
-                playerAttack.transform.position = new Vector3(playerAttack.transform.position.x,
-                    playerAttack.transform.position.y, playerAttack.transform.position.z);
-                playerBreakAttack.transform.position = new Vector3(playerBreakAttack.transform.position.x,
-                    playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
-            }
-            else if (distance == -0.8f)
-            {
-                playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
-                playerAttack.transform.position.y, playerAttack.transform.position.z);
-                playerBreakAttack.transform.position =
-                    new Vector3(playerBreakAttack.transform.position.x - 1.9f,
-                    playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
-            }
+            //if (distance == 0.8f)
+            //{
+            //    playerAttack.transform.position = new Vector3(playerAttack.transform.position.x,
+            //        playerAttack.transform.position.y, playerAttack.transform.position.z);
+            //    playerBreakAttack.transform.position = new Vector3(playerBreakAttack.transform.position.x,
+            //        playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
+            //}
+            //else if (distance == -0.8f)
+            //{
+            //    playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
+            //    playerAttack.transform.position.y, playerAttack.transform.position.z);
+            //    playerBreakAttack.transform.position =
+            //        new Vector3(playerBreakAttack.transform.position.x - 1.9f,
+            //        playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
+            //}
         }
     }
 
     // アビリティ
     void Ability()
     {
-        abilityChoose.transform.position = 
-            new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+        //abilityChoose.transform.position = 
+        //    new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
 
         if (Input.GetKeyDown(KeyCode.X))
         {

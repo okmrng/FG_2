@@ -38,6 +38,7 @@ public class PlayerAttackController : MonoBehaviour
         attackEndTime -= Time.deltaTime;
         if (attackEndTime < 0)
         {
+            playerScript.isAttack = false;
             Destroy(gameObject);
         }
     }

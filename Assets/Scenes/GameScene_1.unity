@@ -861,7 +861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1167085310
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1217,8 +1217,8 @@ MonoBehaviour:
   dashCoolTimeStatus: 0.5
   jumpForce: 12
   HP: 5
+  isAttack: 0
   attackPower: 5
-  attackEndTimeStatus: 0.3
   breakPower: 10
   breakEndTimeStatus: 0.5
   backLashStatus: 3

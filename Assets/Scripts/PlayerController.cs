@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     int damage = 0;
 
     // 攻撃
-    bool isAttack = false;                // 攻撃フラグ
+    public bool isAttack = false;         // 攻撃フラグ
     public int attackPower = 5;           // パワー
 
     // 破壊攻撃
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         playerBreakAttack = GameObject.Find("playerBreakAttack");
         playerBreakAttack.SetActive(false);
         abilityChoose = GameObject.Find("abilityChoose");
-        //abilityChoose.SetActive(false);
+        abilityChoose.SetActive(false);
         abilityGage = GameObject.Find("abilityGage");
         gameDirectorScript = GetComponent<GameDirector>();
     }
@@ -233,22 +233,20 @@ public class PlayerController : MonoBehaviour
         
         if (Input.GetKeyUp(KeyCode.Z))
         {
-            isAttack = true;
+            if (!isAttack)
+            {
+                isAttack = true;
+                GameObject attackObj = Instantiate(playerAttackPrefab);
+            }
         }
 
         if (isAttack)
         {
-            attackModeChange = false;
-
-            GameObject attackObj = Instantiate(playerAttackPrefab);
-
-            isAttack = false;
-            
+            attackModeChange = false;            
         }
         else
         {
             attackModeChange = true;
-            //attackEndTime = attackEndTimeStatus;
         }
     }
 
@@ -322,8 +320,8 @@ public class PlayerController : MonoBehaviour
     // アビリティ
     void Ability()
     {
-        //abilityChoose.transform.position = 
-        //    new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+        abilityChoose.transform.position = 
+            new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
 
         if (Input.GetKeyDown(KeyCode.X))
         {

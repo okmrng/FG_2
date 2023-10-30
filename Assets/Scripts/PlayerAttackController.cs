@@ -20,6 +20,7 @@ public class PlayerAttackController : MonoBehaviour
 
         attackEndTime = attackEndTimeStatus;
 
+        // 自機の向きによって出現位置を変える
         if (playerScript.distance == 0.8f)
         {
             transform.position = new Vector3(player.transform.position.x + 0.8f, 
@@ -36,7 +37,8 @@ public class PlayerAttackController : MonoBehaviour
     public void Update()
     {
         attackEndTime -= Time.deltaTime;
-        if (attackEndTime < 0)
+        // 一定時間経過するか、キーを入力したら解放
+        if (attackEndTime < 0 || Input.GetKeyDown(KeyCode.Z))
         {
             playerScript.isAttack = false;
             Destroy(gameObject);

@@ -380,8 +380,8 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(dashTimer);
         //Debug.Log("ダメージ" + damage);
         //Debug.Log("向き変数" +  distance);
-        //Debug.Log("チャージ量" +  attackCharge);
-        Debug.Log("反動時間" +  backlash);
-        Debug.Log("反動フラグ" +  isBacklash);
+        Debug.Log("チャージ量" +  attackCharge);
+        //Debug.Log("反動時間" +  backlash);
+        //Debug.Log("反動フラグ" +  isBacklash);
     }
 }

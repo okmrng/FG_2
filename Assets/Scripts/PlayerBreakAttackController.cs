@@ -36,7 +36,10 @@ public class PlayerBreakAttackController : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        breakEndTime -= Time.deltaTime;
+        if (!playerScript.onAbility)
+        {
+            breakEndTime -= Time.deltaTime;
+        }
         // 一定時間経過するか、キーを入力したら解放
         if (breakEndTime < 0)
         {

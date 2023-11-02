@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
     public float distance = 0;
 
     // アビリティ
-    bool onAbility = false;       // アビリティ発動
+    public bool onAbility = false;       // アビリティ発動
     bool isAbilityAttack = false; // 攻撃効果
     bool isAbilityHeal = false;   // 回復効果
 

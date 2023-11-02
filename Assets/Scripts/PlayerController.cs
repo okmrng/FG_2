@@ -113,7 +113,10 @@ public class PlayerController : MonoBehaviour
         // çUåÇ
         if (attackMode == 1)
         {
-            Attack();
+            if (!isBacklash)
+            {
+                Attack();
+            }
         }
         else if (attackMode == 2)
         {

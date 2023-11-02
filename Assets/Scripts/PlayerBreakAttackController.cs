@@ -38,7 +38,7 @@ public class PlayerBreakAttackController : MonoBehaviour
     {
         breakEndTime -= Time.deltaTime;
         // 一定時間経過するか、キーを入力したら解放
-        if (breakEndTime < 0 || Input.GetKeyDown(KeyCode.Z))
+        if (breakEndTime < 0)
         {
             playerScript.isBreak = false;
             Destroy(gameObject);

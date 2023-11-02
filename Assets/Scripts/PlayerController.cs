@@ -236,8 +236,11 @@ public class PlayerController : MonoBehaviour
         {
             if (!isAttack)
             {
-                isAttack = true;
-                GameObject attackObj = Instantiate(playerAttackPrefab);
+                if (!onAbility)
+                {
+                    isAttack = true;
+                    GameObject attackObj = Instantiate(playerAttackPrefab);
+                }
             }
         }
 
@@ -261,8 +264,11 @@ public class PlayerController : MonoBehaviour
         {
             if (!isBreak)
             {
-                isBreak = true;
-                GameObject breakObj = Instantiate(playerBreakAttackPrefab);
+                if (!onAbility)
+                {
+                    isBreak = true;
+                    GameObject breakObj = Instantiate(playerBreakAttackPrefab);
+                }
             }
         }
 

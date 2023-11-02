@@ -44,12 +44,4 @@ public class PlayerBreakAttackController : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Enemy")
-        {
-            director.GetComponent<GameDirector>().increaseAbility();
-        }
-    }
 }

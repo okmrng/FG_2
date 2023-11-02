@@ -9,16 +9,17 @@ public class GameDirector : MonoBehaviour
 
     public GameObject[] hpIcons; // 自機HPアイコン
 
+    public float addWidth; // ゲージの増分
+
     // Start is called before the first frame update
     void Start()
     {
         abilityGage = GameObject.Find("abilityGage");
     }
 
-    // ゲージを溜める
-    public void increaseAbility()
+    private void Update()
     {
-        abilityGage.GetComponent<Image>().fillAmount += 0.1f;
+        abilityGage.GetComponent<Image>().fillAmount += addWidth;
     }
 
     // 自機の残機数を表示するメソッド

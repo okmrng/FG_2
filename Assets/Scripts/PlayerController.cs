@@ -66,6 +66,12 @@ public class PlayerController : MonoBehaviour
 
     bool isKinematicInitially; // 初期のisKinematicの状態を保存
 
+    float horizontalInput;
+
+    float abilityChooseTime = 0;
+    public float abilityChooseTimeStatus = 0.1f;
+    float choose = 0;
+
     void Start()
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
@@ -105,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
         if (canPushJanp)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && isGround)
+            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
             {
                 ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
@@ -134,7 +140,7 @@ public class PlayerController : MonoBehaviour
         // チャージ
         if (attackModeChange)
         {
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.Z) || Input.GetButton("Attack"))
             {
                 attackCharge += Time.deltaTime;
             }
@@ -171,12 +177,12 @@ public class PlayerController : MonoBehaviour
         if (!isBacklash)
         {
             // 左右のベクトルを取得
-            float horizontalInput = Input.GetAxis("Horizontal");
+            horizontalInput = Input.GetAxis("Horizontal");
 
             // ダッシュ
             if (canPushDash)
             {
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetButton("Dash"))
                 {
                     canPushDash = false;
 
@@ -190,7 +196,7 @@ public class PlayerController : MonoBehaviour
                     canDash = false;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetButtonDown("Dash"))
             {
                 canPushDash = true;
             }
@@ -232,7 +238,7 @@ public class PlayerController : MonoBehaviour
     // 攻撃メソッド
     void Attack()
     {
-        if (Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.Z) || Input.GetButtonUp("Attack"))
         {
             if (!isAttack)
             {
@@ -260,7 +266,7 @@ public class PlayerController : MonoBehaviour
         //playerBreakAttack.transform.position =
         //   new Vector3(transform.position.x + 0.95f, transform.position.y + 0.3f, transform.position.z);
 
-        if (Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.Z) || Input.GetButtonUp("Attack"))
         {
             if (!isBreak)
             {
@@ -291,30 +297,13 @@ public class PlayerController : MonoBehaviour
         if (!isBacklash)
         {
             // キー入力で左右の向きか取得
-            if (Input.GetKey(KeyCode.RightArrow)) distance = 0.8f;
-            if (Input.GetKey(KeyCode.LeftArrow)) distance = -0.8f;
+            if (Input.GetKey(KeyCode.RightArrow) || horizontalInput > 0) distance = 0.8f;
+            if (Input.GetKey(KeyCode.LeftArrow) || horizontalInput < 0) distance = -0.8f;
 
             if (distance != 0)
             {
                 transform.localScale = new Vector3(distance, 1.5f, 1);
             }
-
-            // 攻撃の向き
-            //if (distance == 0.8f)
-            //{
-            //    playerAttack.transform.position = new Vector3(playerAttack.transform.position.x,
-            //        playerAttack.transform.position.y, playerAttack.transform.position.z);
-            //    playerBreakAttack.transform.position = new Vector3(playerBreakAttack.transform.position.x,
-            //        playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
-            //}
-            //else if (distance == -0.8f)
-            //{
-            //    playerAttack.transform.position = new Vector3(playerAttack.transform.position.x - 1.58f,
-            //    playerAttack.transform.position.y, playerAttack.transform.position.z);
-            //    playerBreakAttack.transform.position =
-            //        new Vector3(playerBreakAttack.transform.position.x - 1.9f,
-            //        playerBreakAttack.transform.position.y, playerBreakAttack.transform.position.z);
-            //}
         }
     }
 
@@ -324,10 +313,11 @@ public class PlayerController : MonoBehaviour
         abilityChoose.transform.position = 
             new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Ability"))
         {
             if (!onAbility && abilityGage.GetComponent<Image>().fillAmount == 1)
             {
+                abilityChooseTime = abilityChooseTimeStatus;
                 onAbility = true;
             }
         }
@@ -345,13 +335,19 @@ public class PlayerController : MonoBehaviour
             abilityChoose.SetActive(true);
             Debug.Log("効果を選んでね！\nA:攻撃 D:回復");
 
-            if (Input.GetKeyDown(KeyCode.A))
+            abilityChooseTime -= Time.deltaTime;
+            if (abilityChooseTime <= 0)
+            {
+                choose = Input.GetAxis("AbilityChoose");
+            }
+
+            if (choose >= 0.1f)
             {
                 abilityChoose.SetActive(false);
                 isAbilityAttack = true;
                 onAbility = false;
             }
-            else if(Input.GetKeyDown(KeyCode.D))
+            else if(choose <= -0.1f)
             {
                 abilityChoose.SetActive(false);
                 isAbilityHeal = true;
@@ -390,8 +386,9 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(dashTimer);
         //Debug.Log("ダメージ" + damage);
         //Debug.Log("向き変数" +  distance);
-        Debug.Log("チャージ量" +  attackCharge);
+       // Debug.Log("チャージ量" +  attackCharge);
         //Debug.Log("反動時間" +  backlash);
         //Debug.Log("反動フラグ" +  isBacklash);
+        Debug.Log(choose);
     }
 }

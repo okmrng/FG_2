@@ -158,6 +158,7 @@ MonoBehaviour:
   - {fileID: 1916334871}
   - {fileID: 670383073}
   - {fileID: 92179436}
+  addWidth: 0.00001
 --- !u!4 &48427428
 Transform:
   m_ObjectHideFlags: 0
@@ -1082,11 +1083,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71777ca4ac79193458bee5273067bc7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerAttackPrefab: {fileID: 3118921609675958227, guid: 92ee8c140027015459fd705cb5175f17, type: 3}
+  playerBreakAttackPrefab: {fileID: 8231165863200659312, guid: e56f4dcaade23bb4f94bc5592d41d50e, type: 3}
   abilityStopObj:
   - {fileID: 2135663312}
   abilityAttackPrefab: {fileID: 6106674225694241011, guid: 53ca706ed5cd295408b8496350762b3e, type: 3}
   abilityHealPrefab: {fileID: 6106674225694241011, guid: 2b4f60a122d806549a8954ca174fb329, type: 3}
-  playerAttackPrefab: {fileID: 3118921609675958227, guid: 92ee8c140027015459fd705cb5175f17, type: 3}
   moveSpeed: 5
   dashPower: 17
   dashTimerStatus: 0.5
@@ -1095,11 +1097,12 @@ MonoBehaviour:
   HP: 5
   isAttack: 0
   attackPower: 5
+  isBreak: 0
   breakPower: 10
-  breakEndTimeStatus: 0.5
   backLashStatus: 3
   attackChargeMax: 3
   distance: 0
+  onAbility: 0
 --- !u!1 &1424121544
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,13 +23,13 @@ public class PlayerBreakAttackController : MonoBehaviour
         // é©ã@ÇÃå¸Ç´Ç…ÇÊÇ¡Çƒèoåªà íuÇïœÇ¶ÇÈ
         if (playerScript.distance == 0.8f)
         {
-            transform.position = new Vector3(player.transform.position.x + 0.8f,
-                player.transform.position.y, player.transform.position.z);
+            transform.position = new Vector3(player.transform.position.x + 1,
+                player.transform.position.y + 0.3f, player.transform.position.z);
         }
         else if (playerScript.distance == -0.8f)
         {
-            transform.position = new Vector3(player.transform.position.x - 0.8f,
-               player.transform.position.y, player.transform.position.z);
+            transform.position = new Vector3(player.transform.position.x - 1,
+               player.transform.position.y + 0.3f, player.transform.position.z);
         }
     }
 

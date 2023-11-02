@@ -9,14 +9,14 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D ridid2d;
     GameObject director;
-    GameObject playerBreakAttack;
+    public GameObject playerAttackPrefab;
+    public GameObject playerBreakAttackPrefab;
     public GameObject[] abilityStopObj;
     GameObject abilityChoose;
     public GameObject abilityAttackPrefab;
     public GameObject abilityHealPrefab;
     GameObject abilityGage;
     GameDirector gameDirectorScript;
-    public GameObject playerAttackPrefab;
 
     public float moveSpeed = 5.0f; // ˆÚ“®‘¬“x
 
@@ -44,13 +44,11 @@ public class PlayerController : MonoBehaviour
     public int attackPower = 5;           // ƒpƒ[
 
     // ”j‰óUŒ‚
-    bool isBreak = false;                   // ”j‰óUŒ‚ƒtƒ‰ƒO
-    public int breakPower = 10;             // ”j‰óƒpƒ[
-    float breakEndTime = 0;                 // ”j‰óŠÔ
-    public float breakEndTimeStatus = 1.2f; // ”j‰óŠÔ
-    public float backLashStatus = 3;        // ”½“®
-    float backlash = 0;                     // ”½“®
-    bool isBacklash = false;                     // ”½“®
+    public bool isBreak = false;     // ”j‰óUŒ‚ƒtƒ‰ƒO
+    public int breakPower = 10;      // ”j‰óƒpƒ[
+    public float backLashStatus = 3; // ”½“®
+    float backlash = 0;              // ”½“®
+    bool isBacklash = false;         // ”½“®
 
     int attackMode = 0;           // 0 = –³‚µA1 = ’ÊíUŒ‚A2 = ”j‰óUŒ‚
     bool attackModeChange = true; // UŒ‚•Ï‰»ƒtƒ‰ƒO
@@ -70,8 +68,6 @@ public class PlayerController : MonoBehaviour
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
         director = GameObject.Find("gameDirector");
-        playerBreakAttack = GameObject.Find("playerBreakAttack");
-        playerBreakAttack.SetActive(false);
         abilityChoose = GameObject.Find("abilityChoose");
         abilityChoose.SetActive(false);
         abilityGage = GameObject.Find("abilityGage");
@@ -229,9 +225,6 @@ public class PlayerController : MonoBehaviour
     // UŒ‚ƒƒ\ƒbƒh
     void Attack()
     {
-        //playerAttack.transform.position = 
-        //    new Vector3(transform.position.x + 0.8f, transform.position.y, transform.position.z);
-        
         if (Input.GetKeyUp(KeyCode.Z))
         {
             if (!isAttack)
@@ -254,12 +247,16 @@ public class PlayerController : MonoBehaviour
     // ”j‰óUŒ‚ƒƒ\ƒbƒh
     void Break()
     {
-        playerBreakAttack.transform.position =
-           new Vector3(transform.position.x + 0.95f, transform.position.y + 0.3f, transform.position.z);
+        //playerBreakAttack.transform.position =
+        //   new Vector3(transform.position.x + 0.95f, transform.position.y + 0.3f, transform.position.z);
 
         if (Input.GetKeyUp(KeyCode.Z))
         {
-            isBreak = true;
+            if (!isBreak)
+            {
+                isBreak = true;
+                GameObject breakObj = Instantiate(playerBreakAttackPrefab);
+            }
         }
 
         if (isBreak)
@@ -268,20 +265,10 @@ public class PlayerController : MonoBehaviour
             backlash = backLashStatus;
 
             attackModeChange = false;
-
-            playerBreakAttack.SetActive(true);
-
-            breakEndTime -= Time.deltaTime;
-            if (breakEndTime < 0)
-            {
-                isBreak = false;
-            }
         }
         else
         {
             attackModeChange = true;
-            playerBreakAttack.SetActive(false);
-            breakEndTime = breakEndTimeStatus;
         }
     }
 

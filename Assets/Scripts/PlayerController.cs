@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour
     bool isAbilityAttack = false; // UŒ‚Œø‰Ê
     bool isAbilityHeal = false;   // ‰ñ•œŒø‰Ê
 
+    bool isKinematicInitially; // ‰Šú‚ÌisKinematic‚Ìó‘Ô‚ğ•Û‘¶
+
     void Start()
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
@@ -72,6 +74,8 @@ public class PlayerController : MonoBehaviour
         abilityChoose.SetActive(false);
         abilityGage = GameObject.Find("abilityGage");
         gameDirectorScript = GetComponent<GameDirector>();
+
+        isKinematicInitially = ridid2d.isKinematic;
     }
 
     // Update is called once per frame
@@ -327,7 +331,7 @@ public class PlayerController : MonoBehaviour
             // “®‚«‚ğ~‚ß‚é
             for (int i = 0; i < abilityStopObj.Length; i++)
             {
-                abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+                abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = true;
             }
 
@@ -346,6 +350,15 @@ public class PlayerController : MonoBehaviour
                 abilityChoose.SetActive(false);
                 isAbilityHeal = true;
                 onAbility = false;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < abilityStopObj.Length; i++)
+            {
+                abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = 
+                    abilityStopObj[i].GetComponent<Rigidbody2D>().velocity;
+                abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = isKinematicInitially;
             }
         }
 

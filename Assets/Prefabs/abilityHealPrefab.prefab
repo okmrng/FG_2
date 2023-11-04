@@ -98,4 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityHealRangePrefab: {fileID: 2229867583866785380, guid: 0b76721efc958ae4cb6533d0ca705caf, type: 3}
-  speed: 0.2
+  speedStatus: 0.2

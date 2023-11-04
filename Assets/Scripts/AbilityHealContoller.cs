@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class AbilityHealContoller : MonoBehaviour
 {
-    GameObject player; // 自機
-    public GameObject abilityHealRangePrefab; // 攻撃範囲
+    GameObject player;                          // 自機
+    PlayerController playerScript;              // 自機スクリプト
+    public GameObject abilityHealRangePrefab;   // 攻撃範囲
 
-    public float speed = 0.2f; // 速度
+    public float speedStatus = 3;
+    float speed = 0; // 速度
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("player");
+        playerScript = player.GetComponent<PlayerController>();
         transform.position = player.transform.position;
+
+        if (playerScript.distance == 0.8f)
+        {
+            speed = speedStatus;
+        }
+        else if (playerScript.distance == -0.8f)
+        {
+            speed = -speedStatus;
+        }
     }
 
     // Update is called once per frame

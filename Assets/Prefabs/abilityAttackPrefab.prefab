@@ -98,4 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilityAttackRangePrefab: {fileID: 2229867583866785380, guid: 60ef53f75fff2c44b987c1466f0bfff4, type: 3}
-  speed: 0.2
+  speedStatus: 0.2

@@ -102,6 +102,14 @@ public class PlayerController : MonoBehaviour
                     ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 }
             }
+
+            ridid2d.GetComponent<Rigidbody2D>().velocity = ridid2d.GetComponent<Rigidbody2D>().velocity;
+            ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
+        }
+        else
+        {
+            ridid2d.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
         }
 
         if(backlash <= 0)

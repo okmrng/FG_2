@@ -94,6 +94,14 @@ public class PlayerController : MonoBehaviour
 
             // 向き
             Distance();
+
+            if (canPushJanp)
+            {
+                if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
+                {
+                    ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                }
+            }
         }
 
         if(backlash <= 0)
@@ -108,14 +116,6 @@ public class PlayerController : MonoBehaviour
         // ジャンプ
         isGround = false;
         isGround = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
-
-        if (canPushJanp)
-        {
-            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
-            {
-                ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            }
-        }
 
         // HPアイコン
         director.GetComponent<GameDirector>().HpIcons(damage);

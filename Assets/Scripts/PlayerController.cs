@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!onAbility)
+        if (!onAbility && !isBacklash)
         {
             // ˆÚ“®
             Move();
@@ -108,11 +108,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            ridid2d.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
+            ridid2d.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ridid2d.velocity.y);
+            if (onAbility)
+            {
+                ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
+            }
         }
 
-        if(backlash <= 0)
+        // ”½“®
+        if (backlash <= 0)
         {
             isBacklash = false;
         }

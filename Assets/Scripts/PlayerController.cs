@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     float dashCoolTime = 0;
     public float dashCoolTimeStatus = 0.5f;
     bool canPushDash = true;
+    bool rightDash = true;
+    bool leftDash = true;
 
     // ジャンプ
     public float jumpForce = 10.0f; // ジャンプ
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
     // 向き
     public float distance = 0;
+    bool right = true;         // 向きフラグ true = 右向き、false = 左向き
 
     // アビリティ
     public bool onAbility = false;       // アビリティ発動
@@ -216,13 +219,24 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || Input.GetButtonDown("Dash"))
             {
                 canPushDash = true;
+                if (right)
+                {
+                    rightDash = true;
+                }
+                if (!right)
+                {
+                    leftDash = true;
+                }
             }
 
             if (canDash)
             {
                 canPushJanp = false;
                 dashSpeed = dashPower;
-                ridid2d.velocity = new Vector2(horizontalInput * dashSpeed, 0);
+                if (horizontalInput != 0)
+                {
+                    ridid2d.velocity = new Vector2(horizontalInput * dashSpeed, 0);
+                }
 
                 // ダッシュ終わり
                 dashTimer -= Time.deltaTime;
@@ -230,6 +244,24 @@ public class PlayerController : MonoBehaviour
                 {
                     dashCoolTime = dashCoolTimeStatus;
                     canDash = false;
+                }
+
+                // ダッシュ中に振り向きでダッシュキャンセル
+                if (rightDash)
+                {
+                    if (!right)
+                    {
+                        rightDash = false;
+                        canDash = false;
+                    }
+                }
+                else if (leftDash)
+                {
+                    if (right)
+                    {
+                        leftDash = false;
+                        canDash = false;
+                    }
                 }
             }
             else
@@ -314,8 +346,16 @@ public class PlayerController : MonoBehaviour
         if (!isBacklash)
         {
             // キー入力で左右の向きか取得
-            if (Input.GetKey(KeyCode.RightArrow) || horizontalInput > 0) distance = 0.8f;
-            if (Input.GetKey(KeyCode.LeftArrow) || horizontalInput < 0) distance = -0.8f;
+            if (Input.GetKey(KeyCode.RightArrow) || horizontalInput > 0)
+            {
+                distance = 0.8f;
+                right = true;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow) || horizontalInput < 0)
+            {
+                distance = -0.8f;
+                right = false;
+            }
 
             if (distance != 0)
             {
@@ -406,6 +446,6 @@ public class PlayerController : MonoBehaviour
        // Debug.Log("チャージ量" +  attackCharge);
         //Debug.Log("反動時間" +  backlash);
         //Debug.Log("反動フラグ" +  isBacklash);
-        Debug.Log(choose);
+        Debug.Log(canDash);
     }
 }

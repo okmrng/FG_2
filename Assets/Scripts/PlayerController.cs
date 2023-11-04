@@ -108,10 +108,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            ridid2d.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ridid2d.velocity.y);
             if (onAbility)
             {
+                ridid2d.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
+            }
+            else
+            {
+                ridid2d.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ridid2d.velocity.y);
+                ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
             }
         }
 

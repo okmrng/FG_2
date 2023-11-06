@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     bool isGround = false;
 
     // HP
+    public int HPMAX = 5;
     public int HP = 5;
     int damage = 0;
 
@@ -282,6 +283,23 @@ public class PlayerController : MonoBehaviour
         {
             HP -= 1;
             damage += 1;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag == "PlayerAbilityAttack")
+        {
+            HP -= 1;
+            damage += 1;
+        }
+        if(other.gameObject.tag == "PlayerAbilityHeal")
+        {
+            if(HP < HPMAX)
+            {
+                HP += 1;
+                damage -= 1;
+            }
         }
     }
 

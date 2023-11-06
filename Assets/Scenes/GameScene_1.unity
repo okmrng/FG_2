@@ -1091,18 +1091,20 @@ MonoBehaviour:
   abilityHealPrefab: {fileID: 6106674225694241011, guid: 2b4f60a122d806549a8954ca174fb329, type: 3}
   moveSpeed: 5
   dashPower: 17
-  dashTimerStatus: 0.5
+  dashTimerStatus: 0.3
   dashCoolTimeStatus: 0.5
   jumpForce: 12
+  HPMAX: 5
   HP: 5
   isAttack: 0
   attackPower: 5
   isBreak: 0
   breakPower: 10
-  backLashStatus: 3
-  attackChargeMax: 3
-  distance: 0
+  backLashStatus: 1.5
+  attackChargeMax: 1
+  distance: 0.8
   onAbility: 0
+  abilityChooseTimeStatus: 0.1
 --- !u!1 &1424121544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1713,7 +1715,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: d178039ab900d0f4f84ec8ccf3718445, type: 2}
+  m_Material: {fileID: 6200000, guid: 7106a7d55848c7c4ba0f5073b1e54aad, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

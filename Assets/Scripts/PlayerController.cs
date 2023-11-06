@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
     public bool onAbility = false;       // アビリティ発動
     bool isAbilityAttack = false; // 攻撃効果
     bool isAbilityHeal = false;   // 回復効果
+    float canceltimer = 0.1f;     // キャンセルタイマー
 
     bool isKinematicInitially; // 初期のisKinematicの状態を保存
 
@@ -393,22 +394,33 @@ public class PlayerController : MonoBehaviour
             Debug.Log("効果を選んでね！\nA:攻撃 D:回復");
 
             abilityChooseTime -= Time.deltaTime;
+            canceltimer -= Time.deltaTime;
+
             if (abilityChooseTime <= 0)
             {
                 choose = Input.GetAxis("AbilityChoose");
             }
 
-            if (choose >= 0.1f)
+            if (choose >= 0.1f || Input.GetKeyDown(KeyCode.A))
             {
                 abilityChoose.SetActive(false);
                 isAbilityAttack = true;
                 onAbility = false;
             }
-            else if(choose <= -0.1f)
+            else if(choose <= -0.1f || Input.GetKeyDown(KeyCode.D))
             {
                 abilityChoose.SetActive(false);
                 isAbilityHeal = true;
                 onAbility = false;
+            }
+
+            if (canceltimer <= 0)
+            {
+                if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Ability"))
+                {
+                    abilityChoose.SetActive(false);
+                    onAbility = false;
+                }
             }
         }
         else
@@ -419,6 +431,7 @@ public class PlayerController : MonoBehaviour
                     abilityStopObj[i].GetComponent<Rigidbody2D>().velocity;
                 abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = isKinematicInitially;
             }
+            canceltimer = 0.1f;
         }
 
         // 攻撃

@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
     float attackCharge = 0;           // チャージ時間
 
     // 向き
-    public float distance = 0;
+    public float distance = 0.8f;
     bool right = true;         // 向きフラグ true = 右向き、false = 左向き
 
     // アビリティ
@@ -385,8 +385,11 @@ public class PlayerController : MonoBehaviour
             // 動きを止める
             for (int i = 0; i < abilityStopObj.Length; i++)
             {
-                abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = true;
+                if (abilityStopObj[i])
+                {
+                    abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = true;
+                }
             }
 
             // 効果選択
@@ -427,9 +430,12 @@ public class PlayerController : MonoBehaviour
         {
             for (int i = 0; i < abilityStopObj.Length; i++)
             {
-                abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = 
-                    abilityStopObj[i].GetComponent<Rigidbody2D>().velocity;
-                abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = isKinematicInitially;
+                if (abilityStopObj[i])
+                {
+                    abilityStopObj[i].GetComponent<Rigidbody2D>().velocity =
+                        abilityStopObj[i].GetComponent<Rigidbody2D>().velocity;
+                    abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = isKinematicInitially;
+                }
             }
             canceltimer = 0.1f;
         }

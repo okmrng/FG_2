@@ -41,7 +41,7 @@ public class PlayerAttackController : MonoBehaviour
             attackEndTime -= Time.deltaTime;
         }
         // 一定時間経過するか、キーを入力したら解放
-        if (attackEndTime < 0 || Input.GetKeyDown(KeyCode.Z))
+        if (attackEndTime < 0 || Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Attack"))
         {
             playerScript.isAttack = false;
             Destroy(gameObject);

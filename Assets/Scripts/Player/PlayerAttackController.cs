@@ -4,23 +4,34 @@ using UnityEngine;
 
 public class PlayerAttackController : MonoBehaviour
 { 
-    GameObject director;           // �ēI�u�W�F�N�g
-    GameObject player;             // ���@�I�u�W�F�N�g
-    PlayerController playerScript; // ���@�X�N���v�g
+　　// オブジェクト
+    /// <summary> UIオブジェクト </summary>
+    GameObject director;
+    /// <summary> 自機オブジェクト </summary>
+    GameObject player;
 
-    float attackEndTime = 0;              // �U������
-    public float attackEndTimeStatus = 1; // �U������
+    // スクリプト
+    /// <summary> 自機スクリプト </summary>
+    PlayerController playerScript;
+
+    /// <summary> 消えるまでの時間 </summary>
+    float attackEndTime = 0;
+    /// <summary> 消えるまでの時間の設定 </summary>
+    public float attackEndTimeStatus = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        director = GameObject.Find("gameDirector");             // �ēI�u�W�F�N�g
-        player = GameObject.Find("player");                     // ���@�I�u�W�F�N�g
-        playerScript = player.GetComponent<PlayerController>(); // ���@�X�N���v�g
+        // オブジェクト
+        director = GameObject.Find("gameDirector");             // UIオブジェクト
+        player = GameObject.Find("player");                     // 自機オブジェクト
+
+        // スクリプト
+        playerScript = player.GetComponent<PlayerController>(); // 自機スクリプト
 
         attackEndTime = attackEndTimeStatus;
 
-        // ���@�̌����ɂ���ďo���ʒu��ς���
+        // 向きを確認して出現する位置を決める
         if (playerScript.distance == 0.8f)
         {
             transform.position = new Vector3(player.transform.position.x + 0.8f, 
@@ -40,7 +51,7 @@ public class PlayerAttackController : MonoBehaviour
         {
             attackEndTime -= Time.deltaTime;
         }
-        // ��莞�Ԍo�߂��邩�A�L�[����͂�������
+        // 時間で解放
         if (attackEndTime < 0 || Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Attack"))
         {
             playerScript.isAttack = false;

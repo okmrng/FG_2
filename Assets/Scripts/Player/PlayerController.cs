@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
     public GameObject playerAttackPrefab;
     public GameObject playerBreakAttackPrefab;
     public GameObject[] abilityStopObj;
-    GameObject abilityChoose;
+    GameObject abilityAttackImage;
+    GameObject abilityHealImage;
     public GameObject abilityAttackPrefab;
     public GameObject abilityHealPrefab;
     GameObject abilityGage;
@@ -68,6 +69,12 @@ public class PlayerController : MonoBehaviour
     bool isAbilityAttack = false; // �U������
     bool isAbilityHeal = false;   // �񕜌���
     float canceltimer = 0.1f;     // �L�����Z���^�C�}�[
+    enum ability
+    {
+        ATTACK,
+        HEAL
+    }
+    ability abilityMode = ability.ATTACK;
 
     bool isKinematicInitially; // ������isKinematic�̏�Ԃ�ۑ�
 
@@ -89,8 +96,10 @@ public class PlayerController : MonoBehaviour
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
         director = GameObject.Find("gameDirector");
-        abilityChoose = GameObject.Find("abilityChoose");
-        abilityChoose.SetActive(false);
+        abilityAttackImage = GameObject.Find("ability-attack");
+        abilityAttackImage.SetActive(false);
+        abilityHealImage = GameObject.Find("ability-heal");
+        abilityHealImage.SetActive(false);
         abilityGage = GameObject.Find("abilityGage");
         gameDirectorScript = GetComponent<GameDirector>();
 
@@ -436,8 +445,10 @@ public class PlayerController : MonoBehaviour
     // �A�r���e�B
     void Ability()
     {
-        abilityChoose.transform.position = 
-            new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+        abilityAttackImage.transform.position =
+            new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+        abilityHealImage.transform.position =
+            new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
 
         if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Ability"))
         {
@@ -461,8 +472,58 @@ public class PlayerController : MonoBehaviour
             }
 
             // ���ʑI��
-            abilityChoose.SetActive(true);
-            Debug.Log("���ʂ�I��łˁI\nA:�U�� D:��");
+            switch (abilityMode)
+            {
+                case ability.ATTACK:
+                    abilityAttackImage.SetActive(true);
+                    abilityHealImage.SetActive(false);
+
+                    if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        abilityMode = ability.HEAL;
+                    }
+
+                    if (abilityChooseTime <= 0 && Input.GetKeyDown(KeyCode.X))
+                    {
+                        abilityAttackImage.SetActive(false);
+                        isAbilityAttack = true;
+                        onAbility = false;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Attack"))
+                    {
+                        abilityAttackImage.SetActive(false);
+                        abilityHealImage.SetActive(false);
+                        onAbility = false;
+                    }
+
+                    break;
+
+                case ability.HEAL:
+                    abilityHealImage.SetActive(true);
+                    abilityAttackImage.SetActive(false);
+
+                    if (abilityChooseTime <= 0 && Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        abilityMode = ability.ATTACK;
+                    }
+
+                    if (choose <= -0.1f || Input.GetKeyDown(KeyCode.X))
+                    {
+                        abilityHealImage.SetActive(false);
+                        isAbilityHeal = true;
+                        onAbility = false;
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Attack"))
+                    {
+                        abilityAttackImage.SetActive(false);
+                        abilityHealImage.SetActive(false);
+                        onAbility = false;
+                    }
+
+                    break;
+            }
 
             abilityChooseTime -= Time.deltaTime;
             canceltimer -= Time.deltaTime;
@@ -470,28 +531,6 @@ public class PlayerController : MonoBehaviour
             if (abilityChooseTime <= 0)
             {
                 choose = Input.GetAxis("AbilityChoose");
-            }
-
-            if (choose >= 0.1f || Input.GetKeyDown(KeyCode.A))
-            {
-                abilityChoose.SetActive(false);
-                isAbilityAttack = true;
-                onAbility = false;
-            }
-            else if(choose <= -0.1f || Input.GetKeyDown(KeyCode.D))
-            {
-                abilityChoose.SetActive(false);
-                isAbilityHeal = true;
-                onAbility = false;
-            }
-
-            if (canceltimer <= 0)
-            {
-                if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Ability"))
-                {
-                    abilityChoose.SetActive(false);
-                    onAbility = false;
-                }
             }
         }
         else
@@ -534,6 +573,6 @@ public class PlayerController : MonoBehaviour
        // Debug.Log("�`���[�W��" +  attackCharge);
         //Debug.Log("��������" +  backlash);
         //Debug.Log("�����t���O" +  isBacklash);
-        Debug.Log(HP);
+        Debug.Log(isGround);
     }
 }

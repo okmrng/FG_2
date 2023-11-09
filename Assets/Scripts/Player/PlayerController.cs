@@ -77,6 +77,14 @@ public class PlayerController : MonoBehaviour
     public float abilityChooseTimeStatus = 0.1f;
     float choose = 0;
 
+    // ノックバック
+    public float KnockbackSpeedStatus = 20;
+    float KnockbackSpeed = 0;
+    public float knockbackAcceleration = 1;
+    bool onKnockback = false;
+    public float canMoveTimeStatus = 0.5f;
+    float canMoveTime = 0.5f;
+
     void Start()
     {
         this.ridid2d = GetComponent<Rigidbody2D>();
@@ -95,10 +103,16 @@ public class PlayerController : MonoBehaviour
         if (!onAbility && !isBacklash)
         {
             // �ړ�
-            Move();
+            if (!onKnockback)
+            {
+                Move();
 
-            // ����
-            Distance();
+                // ����
+                Distance();
+            }
+
+            // ノックバック
+            Knockback();
 
             if (canPushJanp)
             {
@@ -305,6 +319,37 @@ public class PlayerController : MonoBehaviour
         {
             HP -= 1;
             damage += 1;
+            if (!onKnockback)
+            {
+                onKnockback = true;
+            }
+        }
+    }
+
+    // ノックバック
+    void Knockback()
+    {
+        if (onKnockback)
+        {
+            ridid2d.velocity = new Vector2(-horizontalInput * KnockbackSpeed, ridid2d.velocity.y);
+            if (KnockbackSpeed > 0)
+            {
+                KnockbackSpeed -= knockbackAcceleration;
+            }
+            else
+            {
+                KnockbackSpeed = 0;
+                canMoveTime -= Time.deltaTime;
+                if (canMoveTime < 0)
+                {
+                    onKnockback = false;
+                }
+            }
+        }
+        else
+        {
+            canMoveTime = canMoveTimeStatus;
+            KnockbackSpeed = KnockbackSpeedStatus;
         }
     }
 

@@ -492,7 +492,7 @@ public class PlayerController : MonoBehaviour
                         abilityMode = ability.HEAL;
                     }
 
-                    if (abilityChooseTime <= 0 && Input.GetKeyDown(KeyCode.X))
+                    if (abilityChooseTime <= 0 && (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Ability")))
                     {
                         abilityAttackImage.SetActive(false);
                         isAbilityAttack = true;
@@ -521,7 +521,7 @@ public class PlayerController : MonoBehaviour
                         abilityMode = ability.ATTACK;
                     }
 
-                    if (abilityChooseTime <= 0 && Input.GetKeyDown(KeyCode.X))
+                    if (abilityChooseTime <= 0 && (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("Ability")))
                     {
                         abilityHealImage.SetActive(false);
                         isAbilityHeal = true;

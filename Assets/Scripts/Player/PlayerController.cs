@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour
     float horizontalInput;
 
     float abilityChooseTime = 0;
+    float abilityChangeAttackTime = 0.5f;
+    float abilityChangeHealTime = 0.5f;
     public float abilityChooseTimeStatus = 0.1f;
     float choose = 0;
 
@@ -461,6 +463,8 @@ public class PlayerController : MonoBehaviour
 
         if (onAbility)
         {
+            horizontalInput = Input.GetAxis("Horizontal");
+
             // ������~�߂�
             for (int i = 0; i < abilityStopObj.Length; i++)
             {
@@ -478,7 +482,12 @@ public class PlayerController : MonoBehaviour
                     abilityAttackImage.SetActive(true);
                     abilityHealImage.SetActive(false);
 
-                    if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+                    abilityChangeHealTime = 0.2f;
+                    abilityChangeAttackTime -= Time.deltaTime;
+
+                    if (abilityChangeAttackTime < 0 && 
+                        ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow)) ||
+                        (horizontalInput > 0.1f || horizontalInput < -0.1f)))
                     {
                         abilityMode = ability.HEAL;
                     }
@@ -503,12 +512,16 @@ public class PlayerController : MonoBehaviour
                     abilityHealImage.SetActive(true);
                     abilityAttackImage.SetActive(false);
 
-                    if (abilityChooseTime <= 0 && Input.GetKeyDown(KeyCode.LeftArrow))
+                    abilityChangeAttackTime = 0.2f;
+                    abilityChangeHealTime -= Time.deltaTime;
+
+                    if (abilityChangeHealTime < 0 && (Input.GetKeyDown(KeyCode.LeftArrow) ||
+                        (horizontalInput < -0.1f || horizontalInput > 0.1f)))
                     {
                         abilityMode = ability.ATTACK;
                     }
 
-                    if (choose <= -0.1f || Input.GetKeyDown(KeyCode.X))
+                    if (abilityChooseTime <= 0 && Input.GetKeyDown(KeyCode.X))
                     {
                         abilityHealImage.SetActive(false);
                         isAbilityHeal = true;

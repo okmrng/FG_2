@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class AbilityHealContoller : MonoBehaviour
 {
-    GameObject player;                          // ©‹@
-    PlayerController playerScript;              // ©‹@ƒXƒNƒŠƒvƒg
-    public GameObject abilityHealRangePrefab;   // UŒ‚”ÍˆÍ
+    GameObject player;                          // ï¿½ï¿½ï¿½@
+    PlayerController playerScript;              // ï¿½ï¿½ï¿½@ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½g
+    public GameObject abilityHealRangePrefab;   // ï¿½Uï¿½ï¿½ï¿½Íˆï¿½
 
     public float speedStatus = 3;
-    float speed = 0; // ‘¬“x
+    float speed = 0; // ï¿½ï¿½ï¿½x
 
     // Start is called before the first frame update
     void Start()
@@ -37,13 +37,13 @@ public class AbilityHealContoller : MonoBehaviour
         }
     }
 
-    // ‘¬‚³ŒÅ’è
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Å’ï¿½
     private void FixedUpdate()
     {
         transform.Translate(speed, 0, 0);
     }
 
-    // ‰æ–ÊŠO‚Éo‚½‚ç‰ğ•ú
+    // ï¿½ï¿½ÊŠOï¿½Éoï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     void OnBecameInvisible()
     {
         Destroy(this.gameObject);

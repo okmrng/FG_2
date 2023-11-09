@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class PlayerBreakAttackController : MonoBehaviour
 { 
-    GameObject director;           // ŠÄ“ÂƒIƒuƒWƒFƒNƒg
-    GameObject player;             // ©‹@ƒIƒuƒWƒFƒNƒg
-    PlayerController playerScript; // ©‹@ƒXƒNƒŠƒvƒg
+    GameObject director;           // ï¿½Ä“ÂƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½g
+    GameObject player;             // ï¿½ï¿½ï¿½@ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
+    PlayerController playerScript; // ï¿½ï¿½ï¿½@ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½g
 
-    float breakEndTime = 0;              // UŒ‚ŠÔ
-    public float breakEndTimeStatus = 1; // UŒ‚ŠÔ
+    float breakEndTime = 0;              // ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float breakEndTimeStatus = 1; // ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     // Start is called before the first frame update
     void Start()
     {
-        director = GameObject.Find("gameDirector");             // ŠÄ“ÂƒIƒuƒWƒFƒNƒg
-        player = GameObject.Find("player");                     // ©‹@ƒIƒuƒWƒFƒNƒg
-        playerScript = player.GetComponent<PlayerController>(); // ©‹@ƒXƒNƒŠƒvƒg
+        director = GameObject.Find("gameDirector");             // ï¿½Ä“ÂƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½g
+        player = GameObject.Find("player");                     // ï¿½ï¿½ï¿½@ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
+        playerScript = player.GetComponent<PlayerController>(); // ï¿½ï¿½ï¿½@ï¿½Xï¿½Nï¿½ï¿½ï¿½vï¿½g
 
         breakEndTime = breakEndTimeStatus;
 
-        // ©‹@‚ÌŒü‚«‚É‚æ‚Á‚ÄoŒ»ˆÊ’u‚ğ•Ï‚¦‚é
+        // ï¿½ï¿½ï¿½@ï¿½ÌŒï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½Äoï¿½ï¿½ï¿½Ê’uï¿½ï¿½Ï‚ï¿½ï¿½ï¿½
         if (playerScript.distance == 0.8f)
         {
             transform.position = new Vector3(player.transform.position.x + 1,
@@ -40,7 +40,7 @@ public class PlayerBreakAttackController : MonoBehaviour
         {
             breakEndTime -= Time.deltaTime;
         }
-        // ˆê’èŠÔŒo‰ß‚·‚é‚©AƒL[‚ğ“ü—Í‚µ‚½‚ç‰ğ•ú
+        // ï¿½ï¿½èï¿½ÔŒoï¿½ß‚ï¿½ï¿½é‚©ï¿½Aï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (breakEndTime < 0)
         {
             playerScript.isBreak = false;

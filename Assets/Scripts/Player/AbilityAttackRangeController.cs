@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AbilityAttackRangeController : MonoBehaviour
 {
-    GameObject abilityAttack; // ƒAƒ^ƒbƒNŒø‰ÊƒIƒuƒWƒFƒNƒg
+    GameObject abilityAttack; // ï¿½Aï¿½^ï¿½bï¿½Nï¿½ï¿½ï¿½ÊƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½g
 
-    public float deathTime = 2; // Á–Å‚Ü‚Å‚ÌŠÔ
+    public float deathTime = 2; // ï¿½ï¿½ï¿½Å‚Ü‚Å‚Ìï¿½ï¿½ï¿½
 
-    public int power = 5; // UŒ‚—Í
+    public int power = 5; // ï¿½Uï¿½ï¿½ï¿½ï¿½
 
     // Start is called before the first frame update
     void Start()

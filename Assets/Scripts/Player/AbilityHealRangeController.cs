@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AbilityHealRangeController : MonoBehaviour
 {
-    GameObject abilityHeal; // ‰ñ•œŒø‰ÊƒIƒuƒWƒFƒNƒg
+    GameObject abilityHeal; // ï¿½ñ•œŒï¿½ï¿½ÊƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½g
 
-    public float deathTime = 2; // Á–Å‚Ü‚Å‚ÌŠÔ
+    public float deathTime = 2; // ï¿½ï¿½ï¿½Å‚Ü‚Å‚Ìï¿½ï¿½ï¿½
 
-    public int heal = 5; // ‰ñ•œ—Í
+    public int heal = 5; // ï¿½ñ•œ—ï¿½
 
     // Start is called before the first frame update
     void Start()

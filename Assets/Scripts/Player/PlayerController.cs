@@ -18,11 +18,11 @@ public class PlayerController : MonoBehaviour
     GameObject abilityGage;
     GameDirector gameDirectorScript;
 
-    public float moveSpeed = 5.0f; // ˆÚ“®‘¬“x
+    public float moveSpeed = 5.0f; // ï¿½Ú“ï¿½ï¿½ï¿½ï¿½x
 
-    // ƒ_ƒbƒVƒ…
-    float dashSpeed = 0.0f;         // ƒ_ƒbƒVƒ…‚Ì‘¬“x
-    public float dashPower = 20.0f; // ƒ_ƒbƒVƒ…‚Ì‘¬“x
+    // ï¿½_ï¿½bï¿½Vï¿½ï¿½
+    float dashSpeed = 0.0f;         // ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½Ì‘ï¿½ï¿½x
+    public float dashPower = 20.0f; // ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½Ì‘ï¿½ï¿½x
     bool canDash = false;
     float dashTimer = 0;
     public float dashTimerStatus = 0.5f;
@@ -32,8 +32,8 @@ public class PlayerController : MonoBehaviour
     bool rightDash = true;
     bool leftDash = true;
 
-    // ƒWƒƒƒ“ƒv
-    public float jumpForce = 10.0f; // ƒWƒƒƒ“ƒv
+    // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½v
+    public float jumpForce = 10.0f; // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½v
     bool canPushJanp = true;
     bool isGround = false;
 
@@ -42,34 +42,34 @@ public class PlayerController : MonoBehaviour
     public int HP = 5;
     int damage = 0;
 
-    // UŒ‚
-    public bool isAttack = false;         // UŒ‚ƒtƒ‰ƒO
-    public int attackPower = 5;           // ƒpƒ[
+    // ï¿½Uï¿½ï¿½
+    public bool isAttack = false;         // ï¿½Uï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+    public int attackPower = 5;           // ï¿½pï¿½ï¿½ï¿½[
 
-    // ”j‰óUŒ‚
-    public bool isBreak = false;     // ”j‰óUŒ‚ƒtƒ‰ƒO
-    public int breakPower = 10;      // ”j‰óƒpƒ[
-    public float backLashStatus = 3; // ”½“®
-    float backlash = 0;              // ”½“®
-    bool isBacklash = false;         // ”½“®
+    // ï¿½jï¿½ï¿½Uï¿½ï¿½
+    public bool isBreak = false;     // ï¿½jï¿½ï¿½Uï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
+    public int breakPower = 10;      // ï¿½jï¿½ï¿½pï¿½ï¿½ï¿½[
+    public float backLashStatus = 3; // ï¿½ï¿½ï¿½ï¿½
+    float backlash = 0;              // ï¿½ï¿½ï¿½ï¿½
+    bool isBacklash = false;         // ï¿½ï¿½ï¿½ï¿½
 
-    int attackMode = 0;           // 0 = –³‚µA1 = ’ÊíUŒ‚A2 = ”j‰óUŒ‚
-    bool attackModeChange = true; // UŒ‚•Ï‰»ƒtƒ‰ƒO
+    int attackMode = 0;           // 0 = ï¿½ï¿½ï¿½ï¿½ï¿½A1 = ï¿½Êï¿½Uï¿½ï¿½ï¿½A2 = ï¿½jï¿½ï¿½Uï¿½ï¿½
+    bool attackModeChange = true; // ï¿½Uï¿½ï¿½ï¿½Ï‰ï¿½ï¿½tï¿½ï¿½ï¿½O
 
-    public float attackChargeMax = 3; // ƒ`ƒƒ[ƒWŠÔ
-    float attackCharge = 0;           // ƒ`ƒƒ[ƒWŠÔ
+    public float attackChargeMax = 3; // ï¿½`ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
+    float attackCharge = 0;           // ï¿½`ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
 
-    // Œü‚«
+    // ï¿½ï¿½ï¿½ï¿½
     public float distance = 0.8f;
-    bool right = true;         // Œü‚«ƒtƒ‰ƒO true = ‰EŒü‚«Afalse = ¶Œü‚«
+    bool right = true;         // ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O true = ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Afalse = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    // ƒAƒrƒŠƒeƒB
-    public bool onAbility = false;       // ƒAƒrƒŠƒeƒB”­“®
-    bool isAbilityAttack = false; // UŒ‚Œø‰Ê
-    bool isAbilityHeal = false;   // ‰ñ•œŒø‰Ê
-    float canceltimer = 0.1f;     // ƒLƒƒƒ“ƒZƒ‹ƒ^ƒCƒ}[
+    // ï¿½Aï¿½rï¿½ï¿½ï¿½eï¿½B
+    public bool onAbility = false;       // ï¿½Aï¿½rï¿½ï¿½ï¿½eï¿½Bï¿½ï¿½ï¿½ï¿½
+    bool isAbilityAttack = false; // ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    bool isAbilityHeal = false;   // ï¿½ñ•œŒï¿½ï¿½ï¿½
+    float canceltimer = 0.1f;     // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½^ï¿½Cï¿½}ï¿½[
 
-    bool isKinematicInitially; // ‰Šú‚ÌisKinematic‚Ìó‘Ô‚ğ•Û‘¶
+    bool isKinematicInitially; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½isKinematicï¿½Ìï¿½Ô‚ï¿½Û‘ï¿½
 
     float horizontalInput;
 
@@ -94,10 +94,10 @@ public class PlayerController : MonoBehaviour
     {
         if (!onAbility && !isBacklash)
         {
-            // ˆÚ“®
+            // ï¿½Ú“ï¿½
             Move();
 
-            // Œü‚«
+            // ï¿½ï¿½ï¿½ï¿½
             Distance();
 
             if (canPushJanp)
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // ”½“®
+        // ï¿½ï¿½ï¿½ï¿½
         if (backlash <= 0)
         {
             isBacklash = false;
@@ -135,14 +135,14 @@ public class PlayerController : MonoBehaviour
             backlash -= Time.deltaTime;
         }
 
-        // ƒWƒƒƒ“ƒv
+        // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½v
         isGround = false;
         isGround = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
 
-        // HPƒAƒCƒRƒ“
+        // HPï¿½Aï¿½Cï¿½Rï¿½ï¿½
         director.GetComponent<GameDirector>().HpIcons(damage);
 
-        // UŒ‚
+        // ï¿½Uï¿½ï¿½
         if (attackMode == 1)
         {
             if (!isBacklash)
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
             //playerBreakAttack.SetActive(false);
         }
 
-        // ƒ`ƒƒ[ƒW
+        // ï¿½`ï¿½ï¿½ï¿½[ï¿½W
         if (attackModeChange)
         {
             if (Input.GetKey(KeyCode.Z) || Input.GetButton("Attack"))
@@ -170,38 +170,38 @@ public class PlayerController : MonoBehaviour
 
             if (attackCharge < attackChargeMax)
             {
-                // ’ÊíUŒ‚
+                // ï¿½Êï¿½Uï¿½ï¿½
                 attackMode = 1;
             }
             else if (attackCharge >= attackChargeMax)
             {
-                // ”j‰óUŒ‚
+                // ï¿½jï¿½ï¿½Uï¿½ï¿½
                 attackMode = 2;
             }
             else
             {
-                // UŒ‚‚È‚µ
+                // ï¿½Uï¿½ï¿½ï¿½È‚ï¿½
                 attackMode = 0;
             }
         }
         else { attackCharge = 0; }
 
-        // ƒAƒrƒŠƒeƒB
+        // ï¿½Aï¿½rï¿½ï¿½ï¿½eï¿½B
         Ability();
 
-        // ƒfƒoƒbƒO
+        // ï¿½fï¿½oï¿½bï¿½O
         Debugg();
     }
 
-    // ˆÚ“®
+    // ï¿½Ú“ï¿½
     void Move()
     {
         if (!isBacklash)
         {
-            // ¶‰E‚ÌƒxƒNƒgƒ‹‚ğæ“¾
+            // ï¿½ï¿½ï¿½Eï¿½Ìƒxï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½æ“¾
             horizontalInput = Input.GetAxis("Horizontal");
 
-            // ƒ_ƒbƒVƒ…
+            // ï¿½_ï¿½bï¿½Vï¿½ï¿½
             if (canPushDash)
             {
                 if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetButton("Dash"))
@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
                     ridid2d.velocity = new Vector2(horizontalInput * dashSpeed, 0);
                 }
 
-                // ƒ_ƒbƒVƒ…I‚í‚è
+                // ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½
                 dashTimer -= Time.deltaTime;
                 if (dashTimer < 0)
                 {
@@ -248,7 +248,7 @@ public class PlayerController : MonoBehaviour
                     canDash = false;
                 }
 
-                // ƒ_ƒbƒVƒ…’†‚ÉU‚èŒü‚«‚Åƒ_ƒbƒVƒ…ƒLƒƒƒ“ƒZƒ‹
+                // ï¿½_ï¿½bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ÉUï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åƒ_ï¿½bï¿½Vï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½
                 if (rightDash)
                 {
                     if (!right)
@@ -271,7 +271,7 @@ public class PlayerController : MonoBehaviour
                 canPushJanp = true;
                 dashTimer = dashTimerStatus;
                 dashCoolTime -= Time.deltaTime;
-                // ¶‰EˆÚ“®
+                // ï¿½ï¿½ï¿½Eï¿½Ú“ï¿½
                 ridid2d.velocity = new Vector2(horizontalInput * moveSpeed, ridid2d.velocity.y);
             }
         }
@@ -301,9 +301,14 @@ public class PlayerController : MonoBehaviour
                 damage -= 1;
             }
         }
+        if (other.gameObject.tag == "Enemy")
+        {
+            HP -= 1;
+            damage += 1;
+        }
     }
 
-    // UŒ‚ƒƒ\ƒbƒh
+    // ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½bï¿½h
     void Attack()
     {
         if (Input.GetKeyUp(KeyCode.Z) || Input.GetButtonUp("Attack"))
@@ -328,7 +333,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ”j‰óUŒ‚ƒƒ\ƒbƒh
+    // ï¿½jï¿½ï¿½Uï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½bï¿½h
     void Break()
     {
         //playerBreakAttack.transform.position =
@@ -359,12 +364,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Œü‚«
+    // ï¿½ï¿½ï¿½ï¿½
     void Distance()
     {
         if (!isBacklash)
         {
-            // ƒL[“ü—Í‚Å¶‰E‚ÌŒü‚«‚©æ“¾
+            // ï¿½Lï¿½[ï¿½ï¿½ï¿½Í‚Åï¿½ï¿½Eï¿½ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
             if (Input.GetKey(KeyCode.RightArrow) || horizontalInput > 0)
             {
                 distance = 0.8f;
@@ -383,7 +388,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ƒAƒrƒŠƒeƒB
+    // ï¿½Aï¿½rï¿½ï¿½ï¿½eï¿½B
     void Ability()
     {
         abilityChoose.transform.position = 
@@ -400,7 +405,7 @@ public class PlayerController : MonoBehaviour
 
         if (onAbility)
         {
-            // “®‚«‚ğ~‚ß‚é
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ß‚ï¿½
             for (int i = 0; i < abilityStopObj.Length; i++)
             {
                 if (abilityStopObj[i])
@@ -410,9 +415,9 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            // Œø‰Ê‘I‘ğ
+            // ï¿½ï¿½ï¿½Ê‘Iï¿½ï¿½
             abilityChoose.SetActive(true);
-            Debug.Log("Œø‰Ê‚ğ‘I‚ñ‚Å‚ËI\nA:UŒ‚ D:‰ñ•œ");
+            Debug.Log("ï¿½ï¿½ï¿½Ê‚ï¿½Iï¿½ï¿½Å‚ËI\nA:ï¿½Uï¿½ï¿½ D:ï¿½ï¿½");
 
             abilityChooseTime -= Time.deltaTime;
             canceltimer -= Time.deltaTime;
@@ -456,9 +461,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
             canceltimer = 0.1f;
+            choose = 0;
         }
 
-        // UŒ‚
+        // ï¿½Uï¿½ï¿½
         if (isAbilityAttack)
         {
             abilityGage.GetComponent<Image>().fillAmount = 0;
@@ -473,16 +479,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ƒfƒoƒbƒO
+    // ï¿½fï¿½oï¿½bï¿½O
     void Debugg()
     {
-        // ƒfƒoƒbƒO
+        // ï¿½fï¿½oï¿½bï¿½O
         //Debug.Log(dashTimer);
-        //Debug.Log("ƒ_ƒ[ƒW" + damage);
-        //Debug.Log("Œü‚«•Ï”" +  distance);
-       // Debug.Log("ƒ`ƒƒ[ƒW—Ê" +  attackCharge);
-        //Debug.Log("”½“®ŠÔ" +  backlash);
-        //Debug.Log("”½“®ƒtƒ‰ƒO" +  isBacklash);
-        Debug.Log(canDash);
+        //Debug.Log("ï¿½_ï¿½ï¿½ï¿½[ï¿½W" + damage);
+        //Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½" +  distance);
+       // Debug.Log("ï¿½`ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½" +  attackCharge);
+        //Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" +  backlash);
+        //Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O" +  isBacklash);
+        Debug.Log(HP);
     }
 }

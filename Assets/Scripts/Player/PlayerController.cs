@@ -7,105 +7,180 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    // コンポーネント
     Rigidbody2D ridid2d;
+
+    // ゲームオブジェクト
+    /// <summary> UIオブジェクト </summary>
     GameObject director;
+    /// <summary> 自機通常攻撃のプレファブオブジェクト </summary>
     public GameObject playerAttackPrefab;
+    /// <summary> 自機破壊攻撃のプレファブオブジェクト </summary>
     public GameObject playerBreakAttackPrefab;
+    /// <summary> アビリティ選択中に止めるオブジェクト </summary>
     public GameObject[] abilityStopObj;
+    /// <summary> アビリティ選択(攻撃)オブジェクト </summary>
     GameObject abilityAttackImage;
+    /// <summary> アビリティ選択(回復)オブジェクト </summary>
     GameObject abilityHealImage;
+    /// <summary> アビリティ(攻撃)のプレファブオブジェクト </summary>
     public GameObject abilityAttackPrefab;
+    /// <summary> アビリティ(回復)のプレファブオブジェクト </summary>
     public GameObject abilityHealPrefab;
+    /// <summary> アビリティゲージオブジェクト </summary>
     GameObject abilityGage;
+
+    // スクリプト
+    /// <summary> UIスクリプト </summary>
     GameDirector gameDirectorScript;
 
-    public float moveSpeed = 5.0f; // �ړ����x
+    // 移動速度
+    /// <summary> 移動速度 </summary>
+    public float moveSpeed = 5.0f;
 
-    // �_�b�V��
-    float dashSpeed = 0.0f;         // �_�b�V���̑��x
-    public float dashPower = 20.0f; // �_�b�V���̑��x
+    // ダッシュ
+    /// <summary> ダッシュの速度 </summary>
+    float dashSpeed = 0.0f;
+    /// <summary> ダッシュの速度の設定 </summary>
+    public float dashPower = 20.0f;
+    /// <summary> ダッシュフラグ </summary>
     bool canDash = false;
+    /// <summary> 何秒間ダッシュするか </summary>
     float dashTimer = 0;
+    /// <summary> 何秒間ダッシュするかの設定 </summary>
     public float dashTimerStatus = 0.5f;
+    /// <summary> 次ダッシュできるようになるまでのクールタイム </summary>
     float dashCoolTime = 0;
+    /// <summary> 次ダッシュできるようになるまでのクールタイムの設定 </summary>
     public float dashCoolTimeStatus = 0.5f;
+    /// <summary> ダッシュボタンが押せるかのフラグ </summary>
     bool canPushDash = true;
-    bool rightDash = true;
+    /// <summary> 右へのダッシュフラグ </summary>
+    bool rightDash = true; 
+    /// <summary> 左へのダッシュフラグ </summary>
     bool leftDash = true;
 
-    // �W�����v
-    public float jumpForce = 10.0f; // �W�����v
+    // ジャンプ
+    /// <summary> ジャンプ力 </summary>
+    public float jumpForce = 10.0f;
+    /// <summary> ジャンプボタンを押せるかのフラグ </summary>
     bool canPushJanp = true;
+    /// <summary> 地面と接触しているか確認するためのフラグ </summary>
     bool isGround = false;
 
     // HP
+    /// <summary> HPの最大値 </summary>
     public int HPMAX = 5;
+    /// <summary> HPの現在値 </summary>
     public int HP = 5;
+    /// <summary> ダメージを受けた時にHPアイコンを減らすための変数 </summary>
     int damage = 0;
 
-    // �U��
-    public bool isAttack = false;         // �U���t���O
-    public int attackPower = 5;           // �p���[
+    // 通常攻撃
+    /// <summary> 通常攻撃フラグ </summary>
+    public bool isAttack = false;
+    /// <summary> 通常攻撃の威力 </summary>
+    public int attackPower = 5;
 
-    // �j��U��
-    public bool isBreak = false;     // �j��U���t���O
-    public int breakPower = 10;      // �j��p���[
-    public float backLashStatus = 3; // ����
-    float backlash = 0;              // ����
-    bool isBacklash = false;         // ����
+    // 破壊攻撃
+    /// <summary> 破壊攻撃フラグ </summary>
+    public bool isBreak = false;
+    /// <summary> 破壊攻撃の威力 </summary>
+    public int breakPower = 10; 
+    /// <summary> 反動の時間の設定 </summary>
+    public float backLashStatus = 3;
+    /// <summary> 反動の時間 </summary>
+    float backlash = 0;
+    /// <summary> 反動フラグ </summary>
+    bool isBacklash = false;
 
-    int attackMode = 0;           // 0 = �����A1 = �ʏ�U���A2 = �j��U��
-    bool attackModeChange = true; // �U���ω��t���O
+    // 攻撃切り替え
+    /// <summary> 攻撃のモードの列挙体 </summary>
+    enum AttackMode 
+    {
+        /// <summary> 無し </summary>
+        NON,
+        /// <summary> 通常攻撃  </summary>
+        NORMAL,
+        /// <summary> 破壊攻撃  </summary>
+        BREAK
+    }
+    /// <summary> 攻撃の切り替え用変数  </summary>
+    AttackMode attackMode = AttackMode.NON;
+    /// <summary> 攻撃が切り替え可能か管理するフラグ  </summary>
+    bool attackModeChange = true;
+    /// <summary> チャージの最大値  </summary>
+    public float attackChargeMax = 3;
+    /// <summary> チャージの現在値 </summary>
+    float attackCharge = 0;
 
-    public float attackChargeMax = 3; // �`���[�W����
-    float attackCharge = 0;           // �`���[�W����
-
-    // ����
+    // 向き
+    /// <summary> 現在どっち向いているか </summary>
     public float distance = 0.8f;
-    bool right = true;         // �����t���O true = �E�����Afalse = ������
+    /// <summary> 現在どっち向いているかを判断する変数 //true = 右 false = 左// </summary>
+    bool right = true;
 
-    // �A�r���e�B
-    public bool onAbility = false;       // �A�r���e�B����
-    bool isAbilityAttack = false; // �U������
-    bool isAbilityHeal = false;   // �񕜌���
-    float canceltimer = 0.1f;     // �L�����Z���^�C�}�[
+    // アビリティ
+    /// <summary> アビリティ発動フラグ </summary>
+    public bool onAbility = false;
+    /// <summary> アビリティ(攻撃)フラグ </summary>
+    bool isAbilityAttack = false;
+    /// <summary> アビリティ(回復)フラグ </summary>
+    bool isAbilityHeal = false;
+    /// <summary> アビリティ効果用の列挙体 </summary>
     enum ability
     {
+        /// <summary> 攻撃 </summary>
         ATTACK,
+        /// <summary> 回復 </summary>
         HEAL
     }
+    /// <summary> 何のアビリティを選択しているかを管理する変数 </summary>
     ability abilityMode = ability.ATTACK;
-
-    bool isKinematicInitially; // ������isKinematic�̏�Ԃ�ۑ�
-
-    float horizontalInput;
-
+    /// <summary> アビリティキャンセルする時のクールタイム </summary>
     float abilityChooseTime = 0;
-    float abilityChangeAttackTime = 0.5f;
-    float abilityChangeHealTime = 0.5f;
+    /// <summary> アビリティキャンセルする時のクールタイムの設定 </summary>
     public float abilityChooseTimeStatus = 0.1f;
-    float choose = 0;
+    /// <summary> 攻撃から選択を遷移するためのクールタイム </summary>
+    float abilityChangeAttackTime = 0.5f;
+    /// <summary> 回復から選択を遷移するためのクールタイム </summary>
+    float abilityChangeHealTime = 0.5f;
+
+    bool isKinematicInitially; // kinematicを保存しておくフラグ
+
+    float horizontalInput; // キーの値を受け取る変数
 
     // ノックバック
+    /// <summary> ノックバックする速さの設定 </summary>
     public float KnockbackSpeedStatus = 20;
+    /// <summary> ノックバックする速さ </summary>
     float KnockbackSpeed = 0;
+    /// <summary> ノックバックする速さに対しての加速度 </summary>
     public float knockbackAcceleration = 1;
+    /// <summary> ノックバックフラグ </summary>
     bool onKnockback = false;
+    /// <summary> ノックバック後、再び操作可能になるまでの時間の設定 </summary>
     public float canMoveTimeStatus = 0.5f;
+    /// <summary> ノックバック後、再び操作可能になるまでの時間 </summary>
     float canMoveTime = 0.5f;
 
     void Start()
     {
+        // コンポーネント
         this.ridid2d = GetComponent<Rigidbody2D>();
-        director = GameObject.Find("gameDirector");
-        abilityAttackImage = GameObject.Find("ability-attack");
-        abilityAttackImage.SetActive(false);
-        abilityHealImage = GameObject.Find("ability-heal");
-        abilityHealImage.SetActive(false);
-        abilityGage = GameObject.Find("abilityGage");
-        gameDirectorScript = GetComponent<GameDirector>();
 
-        isKinematicInitially = ridid2d.isKinematic;
+        // ゲームオブジェクト
+        director = GameObject.Find("gameDirector");             // UI
+        abilityAttackImage = GameObject.Find("ability-attack"); // アビリティ選択(攻撃)
+        abilityAttackImage.SetActive(false);
+        abilityHealImage = GameObject.Find("ability-heal");     // アビリティ選択(回復)
+        abilityHealImage.SetActive(false);
+        abilityGage = GameObject.Find("abilityGage");           // アビリティゲージ
+
+        // スクリプト
+        gameDirectorScript = GetComponent<GameDirector>(); // UI
+
+        isKinematicInitially = ridid2d.isKinematic; // kinematicフラグの保存
     }
 
     // Update is called once per frame
@@ -113,25 +188,26 @@ public class PlayerController : MonoBehaviour
     {
         if (!onAbility && !isBacklash)
         {
-            // �ړ�
             if (!onKnockback)
             {
+                // 移動
                 Move();
 
-                // ����
+                // 向き
                 Distance();
+
+                // ジャンプ
+                if (canPushJanp)
+                {
+                    if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
+                    {
+                        ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                    }
+                }
             }
 
             // ノックバック
             Knockback();
-
-            if (canPushJanp)
-            {
-                if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
-                {
-                    ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                }
-            }
 
             ridid2d.GetComponent<Rigidbody2D>().velocity = ridid2d.GetComponent<Rigidbody2D>().velocity;
             ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
@@ -140,6 +216,7 @@ public class PlayerController : MonoBehaviour
         {
             if (onAbility)
             {
+                // アビリティ選択中は自機を静止
                 ridid2d.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
             }
@@ -150,7 +227,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // ����
+        // 時間で反動フラグをfalseに
         if (backlash <= 0)
         {
             isBacklash = false;
@@ -160,31 +237,29 @@ public class PlayerController : MonoBehaviour
             backlash -= Time.deltaTime;
         }
 
-        // �W�����v
+        // 自機が地面と触れているかチェック
         isGround = false;
         isGround = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
 
-        // HP�A�C�R��
+        // HPアイコン
         director.GetComponent<GameDirector>().HpIcons(damage);
 
-        // �U��
-        if (attackMode == 1)
+        // 攻撃呼び出し
+        if (attackMode == AttackMode.NORMAL)
         {
             if (!isBacklash)
             {
+                // 通常攻撃
                 Attack();
             }
         }
-        else if (attackMode == 2)
+        else if (attackMode == AttackMode.BREAK)
         {
+            // 破壊攻撃
             Break();
         }
-        else if (attackMode == 0)
-        {
-            //playerBreakAttack.SetActive(false);
-        }
 
-        // �`���[�W
+        // 攻撃モード確認
         if (attackModeChange)
         {
             if (Input.GetKey(KeyCode.Z) || Input.GetButton("Attack"))
@@ -195,38 +270,40 @@ public class PlayerController : MonoBehaviour
 
             if (attackCharge < attackChargeMax)
             {
-                // �ʏ�U��
-                attackMode = 1;
+                // 通常攻撃
+                attackMode = AttackMode.NORMAL;
             }
             else if (attackCharge >= attackChargeMax)
             {
-                // �j��U��
-                attackMode = 2;
+                // 破壊攻撃
+                attackMode = AttackMode.BREAK;
             }
             else
             {
-                // �U���Ȃ�
-                attackMode = 0;
+                // 無し
+                attackMode = AttackMode.NON;
             }
         }
         else { attackCharge = 0; }
 
-        // �A�r���e�B
+        // アビリティ
         Ability();
 
-        // �f�o�b�O
+        // デバッグ
         Debugg();
     }
 
-    // �ړ�
+    /// <summary>
+    /// 移動、ダッシュ
+    /// </summary>
     void Move()
     {
         if (!isBacklash)
         {
-            // ���E�̃x�N�g����擾
+            // 左右キー入力
             horizontalInput = Input.GetAxis("Horizontal");
 
-            // �_�b�V��
+            // ダッシュ
             if (canPushDash)
             {
                 if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetButton("Dash"))
@@ -265,7 +342,7 @@ public class PlayerController : MonoBehaviour
                     ridid2d.velocity = new Vector2(horizontalInput * dashSpeed, 0);
                 }
 
-                // �_�b�V���I���
+                // ダッシュ終わり処理
                 dashTimer -= Time.deltaTime;
                 if (dashTimer < 0)
                 {
@@ -273,7 +350,7 @@ public class PlayerController : MonoBehaviour
                     canDash = false;
                 }
 
-                // �_�b�V�����ɐU������Ń_�b�V���L�����Z��
+                // ダッシュ中に反対方向向くとダッシュを強制解除
                 if (rightDash)
                 {
                     if (!right)
@@ -296,7 +373,7 @@ public class PlayerController : MonoBehaviour
                 canPushJanp = true;
                 dashTimer = dashTimerStatus;
                 dashCoolTime -= Time.deltaTime;
-                // ���E�ړ�
+                // 移動
                 ridid2d.velocity = new Vector2(horizontalInput * moveSpeed, ridid2d.velocity.y);
             }
         }
@@ -337,7 +414,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ノックバック
+    /// <summary>
+    /// ノックバック
+    /// </summary>
     void Knockback()
     {
         if (onKnockback)
@@ -364,7 +443,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // �U�����\�b�h
+    /// <summary>
+    /// 通常攻撃
+    /// </summary>
     void Attack()
     {
         if (Input.GetKeyUp(KeyCode.Z) || Input.GetButtonUp("Attack"))
@@ -389,12 +470,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // �j��U�����\�b�h
+    /// <summary>
+    /// 破壊攻撃
+    /// </summary>
     void Break()
     {
-        //playerBreakAttack.transform.position =
-        //   new Vector3(transform.position.x + 0.95f, transform.position.y + 0.3f, transform.position.z);
-
         if (Input.GetKeyUp(KeyCode.Z) || Input.GetButtonUp("Attack"))
         {
             if (!isBreak)
@@ -420,12 +500,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ����
+    /// <summary>
+    /// 向き
+    /// </summary>
     void Distance()
     {
         if (!isBacklash)
         {
-            // �L�[���͂ō��E�̌������擾
+            // キーで向きを確認
             if (Input.GetKey(KeyCode.RightArrow) || horizontalInput > 0)
             {
                 distance = 0.8f;
@@ -444,7 +526,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // �A�r���e�B
+    /// <summary>
+    /// アビリティ
+    /// </summary>
     void Ability()
     {
         abilityAttackImage.transform.position =
@@ -465,7 +549,7 @@ public class PlayerController : MonoBehaviour
         {
             horizontalInput = Input.GetAxis("Horizontal");
 
-            // ������~�߂�
+            // 他オブジェクトの動きを止める
             for (int i = 0; i < abilityStopObj.Length; i++)
             {
                 if (abilityStopObj[i])
@@ -475,7 +559,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            // ���ʑI��
+            // アビリティ効果選択
             switch (abilityMode)
             {
                 case ability.ATTACK:
@@ -539,12 +623,6 @@ public class PlayerController : MonoBehaviour
             }
 
             abilityChooseTime -= Time.deltaTime;
-            canceltimer -= Time.deltaTime;
-
-            if (abilityChooseTime <= 0)
-            {
-                choose = Input.GetAxis("AbilityChoose");
-            }
         }
         else
         {
@@ -557,11 +635,9 @@ public class PlayerController : MonoBehaviour
                     abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = isKinematicInitially;
                 }
             }
-            canceltimer = 0.1f;
-            choose = 0;
         }
 
-        // �U��
+        // アビリティ発動後
         if (isAbilityAttack)
         {
             abilityGage.GetComponent<Image>().fillAmount = 0;
@@ -576,16 +652,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // �f�o�b�O
+    /// <summary>
+    /// デバッグ
+    /// </summary>
     void Debugg()
     {
-        // �f�o�b�O
-        //Debug.Log(dashTimer);
-        //Debug.Log("�_���[�W" + damage);
-        //Debug.Log("�����ϐ�" +  distance);
-       // Debug.Log("�`���[�W��" +  attackCharge);
-        //Debug.Log("��������" +  backlash);
-        //Debug.Log("�����t���O" +  isBacklash);
         Debug.Log(isGround);
     }
 }

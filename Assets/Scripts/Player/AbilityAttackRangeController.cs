@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class AbilityAttackRangeController : MonoBehaviour
 {
-    GameObject abilityAttack; // �A�^�b�N���ʃI�u�W�F�N�g
+    // ゲームオブジェクト
+    /// <summary> アビリティ(攻撃)オブジェクト </summary>
+    GameObject abilityAttack;
 
-    public float deathTime = 2; // ���ł܂ł̎���
+    /// <summary> 消えるまでの時間 </summary>
+    public float deathTime = 2;
 
-    public int power = 5; // �U����
+    /// <summary> 攻撃力 </summary>
+    public int power = 5;
 
     // Start is called before the first frame update
     void Start()
     {
+        // ゲームオブジェクト
+        // アビリティ(回復)オブジェクト
         abilityAttack = GameObject.Find("abilityAttackPrefab(Clone)");
+
+        // 本体の位置で出現
         transform.position = abilityAttack.transform.position;
+        // 本体を解放
         Destroy(abilityAttack);
     }
 

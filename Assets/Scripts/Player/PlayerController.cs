@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour
         // 自機が地面と触れているかチェック
         isGround = false;
         isGround = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
-
+        
         // HPアイコン
         director.GetComponent<GameDirector>().HpIcons(damage);
 
@@ -657,6 +657,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Debugg()
     {
-        Debug.Log(isGround);
+        Debug.Log("ground:" + isGround);
     }
 }

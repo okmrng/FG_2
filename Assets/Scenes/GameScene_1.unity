@@ -888,6 +888,7 @@ GameObject:
   - component: {fileID: 1058482408}
   - component: {fileID: 1058482412}
   - component: {fileID: 1058482413}
+  - component: {fileID: 1058482414}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -993,7 +994,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   isToRight: 0
-  revTime: 2
   Ground:
     serializedVersion: 2
     m_Bits: 8
@@ -1012,6 +1012,21 @@ MonoBehaviour:
   abilityAttackPrefab: {fileID: 2229867583866785380, guid: 60ef53f75fff2c44b987c1466f0bfff4, type: 3}
   abilityHealPrefab: {fileID: 2229867583866785380, guid: 0b76721efc958ae4cb6533d0ca705caf, type: 3}
   HPMax: 30
+--- !u!114 &1058482414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058482407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07fe933cb1d6cb46bbc32e7982c5bec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  amplitude: 2
+  frequency: 4
 --- !u!1 &1240580647
 GameObject:
   m_ObjectHideFlags: 0
@@ -1582,6 +1597,7 @@ GameObject:
   - component: {fileID: 2135663316}
   - component: {fileID: 2135663317}
   - component: {fileID: 2135663318}
+  - component: {fileID: 2135663319}
   m_Layer: 7
   m_Name: Circle
   m_TagString: Enemy
@@ -1672,7 +1688,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 7106a7d55848c7c4ba0f5073b1e54aad, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -1719,6 +1735,23 @@ MonoBehaviour:
   abilityAttackPrefab: {fileID: 2229867583866785380, guid: 60ef53f75fff2c44b987c1466f0bfff4, type: 3}
   abilityHealPrefab: {fileID: 2229867583866785380, guid: 0b76721efc958ae4cb6533d0ca705caf, type: 3}
   HPMax: 30
+--- !u!114 &2135663319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135663312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9014744ed561e6240b8ae82a5d3cd1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  isToRight: 0
+  Ground:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &2102434105322178460
 PrefabInstance:
   m_ObjectHideFlags: 0

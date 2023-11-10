@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour
 {
+    GameObject player;
+    PlayerController playerCon;
     public float speed = 3.0f;
     public bool isToRight = false;
-    public float revTime = 0;
+    //public float revTime = 0;
     public LayerMask Ground;
+    
 
     float time = 0;
 
@@ -18,29 +21,45 @@ public class Enemy1 : MonoBehaviour
         if (isToRight){
             transform.localScale = new Vector2(-1,1);
         }
-    
+       player = GameObject.Find("player");
+       playerCon = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(revTime > 0)
-        {
-            time += Time.deltaTime;
-            if(time>= revTime)
-            {
-              isToRight = !isToRight;
-              time = 0;
-              if(isToRight)
-              {
-                transform.localScale = new Vector2(-1,1);
-              }
-              else
-              {
-                transform.localScale = new Vector2(1,1);
-              }
+      
+       if(!isToRight&&player.transform.position.x>transform.position.x){
+            time++;
+            if(time>90){    
+                isToRight = !isToRight;
+                time = 0;
             }
-        }
+       }
+      if(isToRight&&player.transform.position.x<transform.position.x){
+            time++;
+            if(time>90){    
+                isToRight = !isToRight;
+                time = 0;
+            }
+       }
+        // if(revTime > 0)
+        // {
+        //     time += Time.deltaTime;
+        //     if(time>= revTime)
+        //     {
+        //       isToRight = !isToRight;
+        //       time = 0;
+        //       if(isToRight)
+        //       {
+        //         transform.localScale = new Vector2(-1,1);
+        //       }
+        //       else
+        //       {
+        //         transform.localScale = new Vector2(1,1);
+        //       }
+        //     }
+        // }
     }
 
     void FixedUpdate()

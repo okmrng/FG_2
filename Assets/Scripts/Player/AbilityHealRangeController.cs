@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class AbilityHealRangeController : MonoBehaviour
 {
-    GameObject abilityHeal; // �񕜌��ʃI�u�W�F�N�g
+    // ゲームオブジェクト
+    /// <summary> アビリティ(回復)オブジェクト </summary>
+    GameObject abilityHeal;
 
-    public float deathTime = 2; // ���ł܂ł̎���
+    /// <summary> 消えるまでの時間 </summary>
+    public float deathTime = 2;
 
-    public int heal = 5; // �񕜗�
+    /// <summary> 回復量 </summary>
+    public int heal = 5; 
 
     // Start is called before the first frame update
     void Start()
     {
+        // ゲームオブジェクト
+        // アビリティ(回復)オブジェクト
         abilityHeal = GameObject.Find("abilityHealPrefab(Clone)");
+
+        // 本体の位置で出現
         transform.position = abilityHeal.transform.position;
+        // 本体を解放
         Destroy(abilityHeal);
     }
 

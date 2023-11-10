@@ -5,11 +5,14 @@ using UnityEngine.UI;
 
 public class GameDirector : MonoBehaviour
 {
-    GameObject abilityGage; // ƒAƒrƒŠƒeƒBƒQ[ƒW
+    // ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    /// <summary> ã‚¢ãƒ“ãƒªãƒ†ã‚£ã‚²ãƒ¼ã‚¸ </summary>
+    GameObject abilityGage;
+    /// <summary> HPã‚¢ã‚¤ã‚³ãƒ³ </summary>
+    public GameObject[] hpIcons;
 
-    public GameObject[] hpIcons; // ©‹@HPƒAƒCƒRƒ“
-
-    public float addWidth; // ƒQ[ƒW‚Ì‘•ª
+    /// <summary> ã‚²ãƒ¼ã‚¸ã‚’å¢—ã‚„ã—ã¦ã„ãé‡ </summary>
+    public float addWidth;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +25,7 @@ public class GameDirector : MonoBehaviour
         abilityGage.GetComponent<Image>().fillAmount += addWidth;
     }
 
-    // ©‹@‚Ìc‹@”‚ğ•\¦‚·‚éƒƒ\ƒbƒh
+    // HPã‚¢ã‚¤ã‚³ãƒ³ç®¡ç†
     public void HpIcons(int damage)
     {
         for (int i = 0; i < hpIcons.Length; i++)

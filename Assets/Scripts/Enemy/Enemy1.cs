@@ -132,7 +132,7 @@ public class Enemy1 : MonoBehaviour
         {
             HP -= abilityAttackScript.power;
         }
-        if (other.gameObject.tag == "PlayerAbilityAttack")
+        if (other.gameObject.tag == "PlayerAbilityHeal")
         {
             if(HP < HPMax)
             {

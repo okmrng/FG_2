@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 1411964405859014580}
   - component: {fileID: 1411964405859014583}
   - component: {fileID: 1411964405859014582}
+  - component: {fileID: 1531013053932638673}
   m_Layer: 0
   m_Name: Enemy3
   m_TagString: Untagged
@@ -122,7 +123,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0, b: 0.9887943, a: 1}
   m_FlipX: 0
@@ -146,6 +147,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a07fe933cb1d6cb46bbc32e7982c5bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilityAttack: {fileID: 2229867583866785380, guid: 60ef53f75fff2c44b987c1466f0bfff4, type: 3}
+  abilityHeal: {fileID: 2229867583866785380, guid: 0b76721efc958ae4cb6533d0ca705caf, type: 3}
   speed: 10
   amplitude: 2
   frequency: 4
+  HPMax: 5
+  HP: 5
+--- !u!50 &1531013053932638673
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411964405859014576}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

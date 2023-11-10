@@ -299,13 +299,16 @@ public class PlayerController : MonoBehaviour
         // アビリティ
         Ability();
 
+        // デバッグ
+        Debugg();
+    }
+
+    private void FixedUpdate()
+    {
         // ノックバック
         Knockback();
         // 無敵時間
         NoDamage();
-
-        // デバッグ
-        Debugg();
     }
 
     /// <summary>

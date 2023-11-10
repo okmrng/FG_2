@@ -5,27 +5,49 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour
 {
+    // ゲームオブジェクト
+    /// <summary> 自機オブジェクト </summary>
     GameObject player;
+    /// <summary> 攻撃アビリティオブジェクト </summary>
+    public GameObject abilityAttack;
+    /// <summary> 回復アビリティオブジェクト </summary>
+    public GameObject abilityHeal;
+
+    // スクリプト
+    /// <summary> 自機スクリプト </summary>
     PlayerController playerCon;
+    /// <summary> 攻撃アビリティスクリプト </summary>
+    AbilityAttackRangeController abilityAttackScript;
+    /// <summary> 回復アビリティスクリプト </summary>
+    AbilityHealRangeController abilityHealScript;
+
     public float speed = 3.0f;
     public bool isToRight = false;
     //public float revTime = 0;
     public LayerMask Ground;
     
-
     float time = 0;
 
-    /// <summary> HP </summary>
+    /// <summary> HP現在値 </summary>
     public int HP = 10;
+    /// <summary> HP最大値 </summary>
+    public int HPMax = 10;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (isToRight){
-            transform.localScale = new Vector2(-1,1);
+        // ゲームオブジェクト
+        player = GameObject.Find("player");
+
+        // スクリプト
+        playerCon = player.GetComponent<PlayerController>();                              // 自機スクリプト
+        abilityAttackScript = abilityAttack.GetComponent<AbilityAttackRangeController>(); // 攻撃アビリティのスクリプト
+        abilityHealScript = abilityHeal.GetComponent<AbilityHealRangeController>(); // 回復アビリティのスクリプト
+
+        if (isToRight)
+        {
+            transform.localScale = new Vector2(-1, 1);
         }
-       player = GameObject.Find("player");
-       playerCon = player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -51,7 +73,12 @@ public class Enemy1 : MonoBehaviour
             }
         }
 
-        if (HP < 0)
+        if (HP > HPMax)
+        {
+            HP = HPMax;
+        }
+
+        if (HP <= 0)
         {
             Destroy(gameObject);
         }
@@ -77,7 +104,7 @@ public class Enemy1 : MonoBehaviour
     void FixedUpdate()
     {
         bool onGround = Physics2D.CircleCast(transform.position,0.5f,Vector2.down,0.5f,Ground);
-        if(onGround)
+        if(onGround && !playerCon.onAbility)
         {
           Rigidbody2D rbody = GetComponent<Rigidbody2D>();
           if(isToRight)
@@ -100,6 +127,17 @@ public class Enemy1 : MonoBehaviour
         if (other.gameObject.tag == "PlayerBreakAttack")
         {
             HP -= playerCon.breakPower;
+        }
+        if(other.gameObject.tag == "PlayerAbilityAttack")
+        {
+            HP -= abilityAttackScript.power;
+        }
+        if (other.gameObject.tag == "PlayerAbilityAttack")
+        {
+            if(HP < HPMax)
+            {
+                HP -= abilityHealScript.heal;
+            }
         }
 
         isToRight = !isToRight;

@@ -137,13 +137,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a51f2c69287f043b249570be7c7fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2102434104081839422, guid: 32b9344638965c64ca4bb89b9365df05, type: 3}
+  abilityAttack: {fileID: 2229867583866785380, guid: 60ef53f75fff2c44b987c1466f0bfff4, type: 3}
+  abilityHeal: {fileID: 2229867583866785380, guid: 0b76721efc958ae4cb6533d0ca705caf, type: 3}
   speed: 3
   isToRight: 0
   Ground:
     serializedVersion: 2
     m_Bits: 8
   HP: 10
+  HPMax: 10
 --- !u!1 &5205253205285898035
 GameObject:
   m_ObjectHideFlags: 0

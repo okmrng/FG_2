@@ -561,9 +561,9 @@ public class PlayerController : MonoBehaviour
             // 他オブジェクトの動きを止める
             for (int i = 0; i < abilityStopObj.Length; i++)
             {
-                if (abilityStopObj[i])
+                if (abilityStopObj[i] != null)
                 {
-                    abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    abilityStopObj[i].GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                     abilityStopObj[i].GetComponent<Rigidbody2D>().isKinematic = true;
                 }
             }
@@ -637,7 +637,7 @@ public class PlayerController : MonoBehaviour
         {
             for (int i = 0; i < abilityStopObj.Length; i++)
             {
-                if (abilityStopObj[i])
+                if (abilityStopObj[i] != null)
                 {
                     abilityStopObj[i].GetComponent<Rigidbody2D>().velocity =
                         abilityStopObj[i].GetComponent<Rigidbody2D>().velocity;

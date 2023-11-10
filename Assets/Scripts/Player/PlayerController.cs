@@ -417,6 +417,10 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene("GameOver");
         }
+        if (other.gameObject.tag == "ToBoss1")
+        {
+            SceneManager.LoadScene("Boss1Scene");
+        }
     }
 
     /// <summary>

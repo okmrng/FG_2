@@ -27,8 +27,7 @@ public class AreaEnemyGenerator : MonoBehaviour
         // 自機オブジェクト
         player = GameObject.Find("player");
 
-        // 出現位置
-        EnemyPrefab.transform.position = transform.position;
+        delta = span;
     }
 
     // Update is called once per frame
@@ -41,7 +40,10 @@ public class AreaEnemyGenerator : MonoBehaviour
             if (delta > span)
             {
                 delta = 0;
-                GameObject Enemy = Instantiate(EnemyPrefab);
+                if (EnemyPrefab)
+                {
+                    GameObject Enemy = Instantiate(EnemyPrefab, this.transform.position, Quaternion.identity);
+                }
             }
         }
     }

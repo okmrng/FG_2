@@ -412,6 +412,10 @@ public class PlayerController : MonoBehaviour
                 onKnockback = true;
             }
         }
+        if(other.gameObject.tag == "Killzone")
+        {
+
+        }
     }
 
     /// <summary>

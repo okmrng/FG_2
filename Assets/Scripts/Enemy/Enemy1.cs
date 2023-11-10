@@ -15,6 +15,9 @@ public class Enemy1 : MonoBehaviour
 
     float time = 0;
 
+    /// <summary> HP </summary>
+    public int HP = 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,27 +25,36 @@ public class Enemy1 : MonoBehaviour
             transform.localScale = new Vector2(-1,1);
         }
        player = GameObject.Find("player");
-       playerCon = GetComponent<PlayerController>();
+       playerCon = player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-      
-       if(!isToRight&&player.transform.position.x>transform.position.x){
+
+        if (!isToRight && player.transform.position.x > transform.position.x)
+        {
             time++;
-            if(time>90){    
+            if (time > 90)
+            {
                 isToRight = !isToRight;
                 time = 0;
             }
-       }
-      if(isToRight&&player.transform.position.x<transform.position.x){
+        }
+        if (isToRight && player.transform.position.x < transform.position.x)
+        {
             time++;
-            if(time>90){    
+            if (time > 90)
+            {
                 isToRight = !isToRight;
                 time = 0;
             }
-       }
+        }
+
+        if (HP < 0)
+        {
+            Destroy(gameObject);
+        }
         // if(revTime > 0)
         // {
         //     time += Time.deltaTime;
@@ -79,8 +91,17 @@ public class Enemy1 : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.tag == "PlayerAttack")
+        {
+            HP -= playerCon.attackPower;
+        }
+        if (other.gameObject.tag == "PlayerBreakAttack")
+        {
+            HP -= playerCon.breakPower;
+        }
+
         isToRight = !isToRight;
         time = 0;
         if (isToRight)
@@ -90,6 +111,15 @@ public class Enemy1 : MonoBehaviour
          else
         {
             transform.localScale = new Vector2(1,1);
+        }
+
+        if(other.gameObject.tag == "PlayerAttack")
+        {
+            HP -= playerCon.attackPower;
+        }
+        if (other.gameObject.tag == "PlayerBreakAttack")
+        {
+            HP -= playerCon.breakPower;
         }
     }
 }

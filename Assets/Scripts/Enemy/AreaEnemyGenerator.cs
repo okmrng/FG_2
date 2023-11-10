@@ -15,6 +15,11 @@ public class AreaEnemyGenerator : MonoBehaviour
     /// <summary> 敵発生までのカウント </summary>
     float delta = 0;
 
+    /// <summary> 敵発生を開始させる自機の位置 </summary>
+    public float startInstant = 70;
+    /// <summary> 敵発生を終わらせる自機の位置 </summary>
+    public float endInstant = 145;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +35,7 @@ public class AreaEnemyGenerator : MonoBehaviour
     void Update()
     {
         // 一定スパンで敵生成
-        if (player.transform.position.x >= 70 && player.transform.position.x <= 145)
+        if (player.transform.position.x >= startInstant && player.transform.position.x <= endInstant)
         {
             delta += Time.deltaTime;
             if (delta > span)

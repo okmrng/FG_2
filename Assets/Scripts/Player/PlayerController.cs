@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     // コンポーネント
     Rigidbody2D ridid2d;
+    Renderer rendere;
 
     // ゲームオブジェクト
     /// <summary> UIオブジェクト </summary>
@@ -164,11 +165,20 @@ public class PlayerController : MonoBehaviour
     public float canMoveTimeStatus = 0.5f;
     /// <summary> ノックバック後、再び操作可能になるまでの時間 </summary>
     float canMoveTime = 0.5f;
+    /// <summary> 無敵時間フラグ </summary>
+    bool noDamage = false;
+    /// <summary> 無敵時間の設定 </summary>
+    public float noDamageTimeStatus = 1;
+    /// <summary> 無敵時間 </summary>
+    float noDamageTime = 1;
+    /// <summary> 点滅の速さ </summary>
+    public float blinkSpeed = 0.1f;
 
     void Start()
     {
         // コンポーネント
         this.ridid2d = GetComponent<Rigidbody2D>();
+        rendere = GetComponent<Renderer>();
 
         // ゲームオブジェクト
         director = GameObject.Find("gameDirector");             // UI
@@ -206,9 +216,6 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-
-            // ノックバック
-            Knockback();
 
             ridid2d.GetComponent<Rigidbody2D>().velocity = ridid2d.GetComponent<Rigidbody2D>().velocity;
             ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
@@ -289,6 +296,11 @@ public class PlayerController : MonoBehaviour
 
         // アビリティ
         Ability();
+
+        // ノックバック
+        Knockback();
+        // 無敵時間
+        NoDamage();
 
         // デバッグ
         Debugg();
@@ -382,11 +394,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Enemy")
-        {
-            HP -= 1;
-            damage += 1;
-        }
+        //if (other.gameObject.tag == "Enemy")
+        //{
+        //    HP -= 1;
+        //    damage += 1;
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -406,11 +418,15 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.tag == "Enemy")
         {
-            HP -= 1;
-            damage += 1;
-            if (!onKnockback)
+            if (!noDamage)
             {
-                onKnockback = true;
+                HP -= 1;
+                damage += 1;
+                if (!onKnockback)
+                {
+                    onKnockback = true;
+                }
+                noDamage = true;
             }
         }
         if(other.gameObject.tag == "Killzone")
@@ -449,6 +465,34 @@ public class PlayerController : MonoBehaviour
         {
             canMoveTime = canMoveTimeStatus;
             KnockbackSpeed = KnockbackSpeedStatus;
+        }
+    }
+
+    /// <summary>
+    /// 無敵時間
+    /// </summary>
+    void NoDamage()
+    {
+        if (noDamage)
+        {
+            noDamageTime -= Time.deltaTime;
+            if (noDamageTime < 0)
+            {
+                noDamage = false;
+            }
+
+            // 点滅
+            float alpha = Mathf.PingPong(Time.time * blinkSpeed, 1.0f);
+            Color newColor = rendere.material.color;
+            newColor.a = alpha;
+            rendere.material.color = newColor;
+        }
+        else
+        {
+            noDamageTime = noDamageTimeStatus;
+            Color newColor = rendere.material.color;
+            newColor.a = 1.0f;
+            rendere.material.color = newColor;
         }
     }
 

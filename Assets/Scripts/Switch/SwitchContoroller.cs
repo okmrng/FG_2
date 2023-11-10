@@ -15,11 +15,8 @@ public class SwitchContoroller : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            if (!_isFinished)
-            {
                 _onEnter.Invoke();
                 _isFinished = true;
-            }
         }
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - PlayerAbilityAttack
   - PlayerAbilityHeal
   - Killzone
+  - ToBoss1
   layers:
   - Default
   - TransparentFX

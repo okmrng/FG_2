@@ -16,6 +16,9 @@ public class CameraController : MonoBehaviour
     float YPosition; // カメラY座標の初期値
     public float cameraSpeed = 5.0f; // カメラの移動速度
 
+    public float scrollXMinNon = -8.37f;
+    public float scrollXStart = -8.38f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,14 +29,15 @@ public class CameraController : MonoBehaviour
         YPosition = transform.position.y;
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        if (player.transform.position.x < -8.37f)
+        if (player.transform.position.x < scrollXMinNon)
         {
             moveCameraX = false;
         }
-        if(player.transform.position.x >= -8.38f)
+        if (player.transform.position.x >= scrollXStart)
         {
             moveCameraX = true;
         }

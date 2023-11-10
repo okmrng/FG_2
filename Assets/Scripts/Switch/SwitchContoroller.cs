@@ -9,14 +9,11 @@ public class SwitchContoroller : MonoBehaviour
 {
     [SerializeField] UnityEvent _onEnter = default;
 
-    bool _isFinished = false;
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Player")
         {
                 _onEnter.Invoke();
-                _isFinished = true;
         }
     }
 }

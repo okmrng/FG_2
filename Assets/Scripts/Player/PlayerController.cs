@@ -666,6 +666,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Debugg()
     {
-        Debug.Log("ground:" + isGround);
+        Debug.Log("ノックバック:" + onKnockback);
     }
 }

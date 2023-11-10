@@ -165,6 +165,8 @@ public class PlayerController : MonoBehaviour
     public float canMoveTimeStatus = 0.5f;
     /// <summary> ノックバック後、再び操作可能になるまでの時間 </summary>
     float canMoveTime = 0.5f;
+    /// <summary> 当たった方向を受け取る用の変数 </summary>
+    Vector3 colPos = Vector3.zero;
     /// <summary> 無敵時間フラグ </summary>
     bool noDamage = false;
     /// <summary> 無敵時間の設定 </summary>
@@ -424,6 +426,7 @@ public class PlayerController : MonoBehaviour
                 damage += 1;
                 if (!onKnockback)
                 {
+                    colPos = other.transform.position;
                     onKnockback = true;
                 }
                 noDamage = true;
@@ -446,7 +449,8 @@ public class PlayerController : MonoBehaviour
     {
         if (onKnockback)
         {
-            ridid2d.velocity = new Vector2(-horizontalInput * KnockbackSpeed, ridid2d.velocity.y);
+            Vector2 knockbackDirection = (transform.position - colPos).normalized;
+            ridid2d.velocity = new Vector2(knockbackDirection.x * KnockbackSpeed, ridid2d.velocity.y);
             if (KnockbackSpeed > 0)
             {
                 KnockbackSpeed -= knockbackAcceleration;
@@ -710,6 +714,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Debugg()
     {
-        Debug.Log("ノックバック:" + onKnockback);
+        Debug.Log("colPos: " + colPos);
     }
 }

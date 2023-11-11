@@ -152,8 +152,8 @@ MonoBehaviour:
   speed: 10
   amplitude: 2
   frequency: 4
-  HPMax: 5
-  HP: 5
+  HPMax: 1
+  HP: 1
 --- !u!50 &1531013053932638673
 Rigidbody2D:
   serializedVersion: 4

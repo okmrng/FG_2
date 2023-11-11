@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d3a7ed7ec7645764688bbbd311d07e8c, type: 3}
   m_Color: {r: 0, g: 0.86361074, b: 1, a: 1}
   m_FlipX: 0
@@ -134,9 +134,9 @@ MonoBehaviour:
   HPMAX: 5
   HP: 5
   isAttack: 0
-  attackPower: 5
+  attackPower: 1
   isBreak: 0
-  breakPower: 10
+  breakPower: 3
   backLashStatus: 0.4
   attackChargeMax: 1
   distance: 0.8
@@ -145,6 +145,8 @@ MonoBehaviour:
   KnockbackSpeedStatus: 20
   knockbackAcceleration: 0.2
   canMoveTimeStatus: 0.5
+  noDamageTimeStatus: 1
+  blinkSpeed: 0.1
 --- !u!70 &2102434104081839413
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

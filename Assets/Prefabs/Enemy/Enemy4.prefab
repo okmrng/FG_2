@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5447793720339763261}
   - component: {fileID: 5447793720339763260}
-  - component: {fileID: 5447793720339763263}
   - component: {fileID: -3769535939952649185}
+  - component: {fileID: -260205989678709291}
+  - component: {fileID: -6279799971184553581}
   m_Layer: 0
   m_Name: Enemy4
   m_TagString: Untagged
@@ -27,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5447793720339763262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 161.3059, y: 2.412, z: 0}
-  m_LocalScale: {x: 1.296774, y: 0.80281496, z: 1}
+  m_LocalPosition: {x: 161.3059, y: 4.24, z: 0}
+  m_LocalScale: {x: 1.296774, y: 1.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,22 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5447793720339763263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5447793720339763262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de931d4ae5e348940a7ac06fba990a15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 8396462089475353171, guid: 280ecdf23c845d94d88b3b95f5adb155, type: 3}
-  span: 2
-  startInstant: 153
-  endInstant: 173
 --- !u!61 &-3769535939952649185
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -128,3 +113,44 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-260205989678709291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5447793720339763262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4f5838bbc595641a83a3516179dc64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyPrefab: {fileID: 8396462089475353171, guid: 280ecdf23c845d94d88b3b95f5adb155, type: 3}
+  abilityAttack: {fileID: 2229867583866785380, guid: 60ef53f75fff2c44b987c1466f0bfff4, type: 3}
+  abilityHeal: {fileID: 2229867583866785380, guid: 0b76721efc958ae4cb6533d0ca705caf, type: 3}
+  span: 2
+  startInstant: 153
+  endInstant: 173
+  HPMax: 10
+  HP: 10
+--- !u!50 &-6279799971184553581
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5447793720339763262}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

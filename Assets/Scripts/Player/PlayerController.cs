@@ -299,6 +299,12 @@ public class PlayerController : MonoBehaviour
         // アビリティ
         Ability();
 
+        // ゲームオーバー
+        if (HP <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+
         // デバッグ
         Debugg();
     }
@@ -717,6 +723,6 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Debugg()
     {
-        Debug.Log("colPos: " + colPos);
+        Debug.Log("HP: " + HP);
     }
 }

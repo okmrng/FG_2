@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     public GameObject abilityHealPrefab;
     /// <summary> アビリティゲージオブジェクト </summary>
     GameObject abilityGage;
+    /// <summary> ボスへの遷移オブジェクト </summary>
+    GameObject load;
 
     // スクリプト
     /// <summary> UIスクリプト </summary>
@@ -189,6 +191,8 @@ public class PlayerController : MonoBehaviour
         abilityHealImage = GameObject.Find("ability-heal");     // アビリティ選択(回復)
         abilityHealImage.SetActive(false);
         abilityGage = GameObject.Find("abilityGage");           // アビリティゲージ
+        load = GameObject.Find("Load");                         // ボスへの遷移
+        load.SetActive(false);
 
         // スクリプト
         gameDirectorScript = GetComponent<GameDirector>(); // UI
@@ -447,7 +451,8 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.tag == "ToBoss1")
         {
-            SceneManager.LoadScene("Boss1Scene");
+            load.SetActive(true);
+            //SceneManager.LoadScene("Boss1Scene");
         }
     }
 

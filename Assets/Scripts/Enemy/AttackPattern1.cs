@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class AttackPattern1 : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class AttackPattern1 : MonoBehaviour
     public GameObject abilityAttack;
     /// <summary> 回復アビリティオブジェクト </summary>
     public GameObject abilityHeal;
+    /// <summary> 敵HP </summary>
+    GameObject bossHPGage;
 
     // スクリプト
     PlayerController playerCon;
@@ -38,12 +42,23 @@ public class AttackPattern1 : MonoBehaviour
     private ResizeDuringDash resizeScript;
 
     /// <summary> HPの最大値 </summary>
-    public int HPMax = 10;
-    /// <summary> HPの現在値 </summary>
-    public int HP = 10;
+    public int HPMax = 1;
 
     /// <summary> プレイ開始までの時間 </summary>
     public float canPlayTime = 2;
+
+    private void Start()
+    {
+        player = GameObject.Find("player");
+        playerCon = player.GetComponent<PlayerController>();
+        bossHPGage = GameObject.Find("bossGage");
+
+        rb = GetComponent<Rigidbody2D>();
+        initialPosition = transform.position;
+
+        // 追加: ResizeDuringDash スクリプトを取得
+        resizeScript = GetComponent<ResizeDuringDash>();
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -61,35 +76,23 @@ public class AttackPattern1 : MonoBehaviour
     {
         if (collision.gameObject.tag == "PlayerAttack")
         {
-            HP -= playerCon.attackPower;
+           bossHPGage.GetComponent<Image>().fillAmount -= 0.05f;
         }
         if (collision.gameObject.tag == "PlayerBreakAttack")
         {
-            HP -= playerCon.breakPower;
+            bossHPGage.GetComponent<Image>().fillAmount -= 0.15f;
         }
         if (collision.gameObject.tag == "PlayerAbilityAttack")
         {
-            HP -= attackRangeController.power;
+            bossHPGage.GetComponent<Image>().fillAmount -= 0.75f;
         }
         if (collision.gameObject.tag == "PlayerAbilityHeal")
         {
-            if (HP < HPMax)
+            if (bossHPGage.GetComponent<Image>().fillAmount < HPMax)
             {
-                HP -= healRangeController.heal;
+                bossHPGage.GetComponent<Image>().fillAmount += 0.75f;
             }
         }
-    }
-
-    private void Start()
-    {
-        player = GameObject.Find("player");
-        playerCon = player.GetComponent<PlayerController>();
-
-        rb = GetComponent<Rigidbody2D>();
-        initialPosition = transform.position;
-        
-         // 追加: ResizeDuringDash スクリプトを取得
-        resizeScript = GetComponent<ResizeDuringDash>();
     }
 
     private void Update()
@@ -135,12 +138,12 @@ public class AttackPattern1 : MonoBehaviour
                 }
             }
 
-            if (HP > HPMax)
+            if (bossHPGage.GetComponent<Image>().fillAmount > HPMax)
             {
-                HP = HPMax;
+                bossHPGage.GetComponent<Image>().fillAmount = HPMax;
             }
 
-            if (HP <= 0)
+            if (bossHPGage.GetComponent<Image>().fillAmount <= 0)
             {
                 SceneManager.LoadScene("ClearScene");
                 Destroy(gameObject);

@@ -33,10 +33,14 @@ public class PlayerController : MonoBehaviour
     GameObject abilityGage;
     /// <summary> ボスへの遷移オブジェクト </summary>
     GameObject load;
+    /// <summary> ボス </summary>
+    GameObject boss1;
 
     // スクリプト
     /// <summary> UIスクリプト </summary>
     GameDirector gameDirectorScript;
+    /// <summary> ボス </summary>
+    AttackPattern1 bossScript;
 
     // 移動速度
     /// <summary> 移動速度 </summary>
@@ -206,9 +210,14 @@ public class PlayerController : MonoBehaviour
         {
             load.SetActive(false);
         }
+        boss1 = GameObject.Find("Boss1");
 
         // スクリプト
         gameDirectorScript = GetComponent<GameDirector>(); // UI
+        if (boss1)
+        {
+            bossScript = boss1.GetComponent<AttackPattern1>();
+        }
 
         isKinematicInitially = ridid2d.isKinematic; // kinematicフラグの保存
     }
@@ -216,113 +225,124 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canPlay)
+        if (!onAbility && !isBacklash)
         {
-            if (!onAbility && !isBacklash)
+            if (!onKnockback)
             {
-                if (!onKnockback)
+                // 移動
+                Move();
+
+                // 向き
+                Distance();
+
+                // ジャンプ
+                if (canPushJanp)
                 {
-                    // 移動
-                    Move();
-
-                    // 向き
-                    Distance();
-
-                    // ジャンプ
-                    if (canPushJanp)
+                    if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
                     {
-                        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
-                        {
-                            ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                        }
+                        ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                     }
                 }
+            }
 
-                ridid2d.GetComponent<Rigidbody2D>().velocity = ridid2d.GetComponent<Rigidbody2D>().velocity;
-                ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
+            ridid2d.GetComponent<Rigidbody2D>().velocity = ridid2d.GetComponent<Rigidbody2D>().velocity;
+            ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
+        }
+        else
+        {
+            if (onAbility)
+            {
+                // アビリティ選択中は自機を静止
+                ridid2d.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
             }
             else
             {
-                if (onAbility)
-                {
-                    // アビリティ選択中は自機を静止
-                    ridid2d.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                    ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
-                }
-                else
-                {
-                    ridid2d.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ridid2d.velocity.y);
-                    ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
-                }
+                ridid2d.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ridid2d.velocity.y);
+                ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
             }
+        }
 
-            // 時間で反動フラグをfalseに
-            if (backlash <= 0)
+        // 時間で反動フラグをfalseに
+        if (backlash <= 0)
+        {
+            isBacklash = false;
+        }
+        if (backlash > 0 && !isBreak)
+        {
+            backlash -= Time.deltaTime;
+        }
+
+        // 自機が地面と触れているかチェック
+        isGround = false;
+        isGround = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
+
+        // HPアイコン
+        director.GetComponent<GameDirector>().HpIcons(damage);
+
+        // 攻撃呼び出し
+        if (attackMode == AttackMode.NORMAL)
+        {
+            if (!isBacklash)
             {
-                isBacklash = false;
+                // 通常攻撃
+                Attack();
             }
-            if (backlash > 0 && !isBreak)
+        }
+        else if (attackMode == AttackMode.BREAK)
+        {
+            // 破壊攻撃
+            Break();
+        }
+
+        // 攻撃モード確認
+        if (attackModeChange)
+        {
+            if (Input.GetKey(KeyCode.Z) || Input.GetButton("Attack"))
             {
-                backlash -= Time.deltaTime;
-            }
-
-            // 自機が地面と触れているかチェック
-            isGround = false;
-            isGround = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
-
-            // HPアイコン
-            director.GetComponent<GameDirector>().HpIcons(damage);
-
-            // 攻撃呼び出し
-            if (attackMode == AttackMode.NORMAL)
-            {
-                if (!isBacklash)
-                {
-                    // 通常攻撃
-                    Attack();
-                }
-            }
-            else if (attackMode == AttackMode.BREAK)
-            {
-                // 破壊攻撃
-                Break();
-            }
-
-            // 攻撃モード確認
-            if (attackModeChange)
-            {
-                if (Input.GetKey(KeyCode.Z) || Input.GetButton("Attack"))
-                {
-                    attackCharge += Time.deltaTime;
-                }
-                else { attackCharge = 0; }
-
-                if (attackCharge < attackChargeMax)
-                {
-                    // 通常攻撃
-                    attackMode = AttackMode.NORMAL;
-                }
-                else if (attackCharge >= attackChargeMax)
-                {
-                    // 破壊攻撃
-                    attackMode = AttackMode.BREAK;
-                }
-                else
-                {
-                    // 無し
-                    attackMode = AttackMode.NON;
-                }
+                attackCharge += Time.deltaTime;
             }
             else { attackCharge = 0; }
 
-            // アビリティ
-            Ability();
-
-            // ゲームオーバー
-            if (HP <= 0)
+            if (attackCharge < attackChargeMax)
             {
-                death = true;
-                SceneManager.LoadScene("GameOver");
+                // 通常攻撃
+                attackMode = AttackMode.NORMAL;
+            }
+            else if (attackCharge >= attackChargeMax)
+            {
+                // 破壊攻撃
+                attackMode = AttackMode.BREAK;
+            }
+            else
+            {
+                // 無し
+                attackMode = AttackMode.NON;
+            }
+        }
+        else { attackCharge = 0; }
+
+        // アビリティ
+        Ability();
+
+        // ゲームオーバー
+        if (HP <= 0)
+        {
+            death = true;
+        }
+
+        if (death)
+        {
+            HP = HPMAX;
+            damage = 0;
+            SceneManager.LoadScene("GameOver");
+        }
+        if (boss1)
+        {
+            if (bossScript.isDeath)
+            {
+                HP = HPMAX;
+                damage = 0;
             }
         }
 
@@ -749,6 +769,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Debugg()
     {
-        Debug.Log("HP: " + HP);
+        Debug.Log("自機HP: " + HP);
+        Debug.Log("ダメージ: " + damage);
     }
 }

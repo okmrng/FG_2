@@ -725,13 +725,13 @@ public class PlayerController : MonoBehaviour
         // アビリティ発動後
         if (isAbilityAttack)
         {
-            abilityGage.GetComponent<Image>().fillAmount = 0;
+            gameDirectorScript.width = 0;
             GameObject attackAbilityObj = Instantiate(abilityAttackPrefab);
             isAbilityAttack = false;
         }
         else if (isAbilityHeal)
         {
-            abilityGage.GetComponent<Image>().fillAmount = 0;
+            gameDirectorScript.width = 0;
             GameObject attackHealObj = Instantiate(abilityHealPrefab);
             isAbilityHeal = false;
         }

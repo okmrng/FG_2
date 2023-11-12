@@ -143,10 +143,11 @@ MonoBehaviour:
   onAbility: 0
   abilityChooseTimeStatus: 0.1
   KnockbackSpeedStatus: 20
-  knockbackAcceleration: 0.2
+  knockbackAcceleration: 2
   canMoveTimeStatus: 0.5
   noDamageTimeStatus: 1
   blinkSpeed: 0.1
+  canPlay: 1
 --- !u!70 &2102434104081839413
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

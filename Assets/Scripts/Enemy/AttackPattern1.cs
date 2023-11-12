@@ -1,11 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AttackPattern1 : MonoBehaviour
 {
+    // ゲームオブジェクト
     GameObject player;
+    /// <summary> 攻撃アビリティオブジェクト </summary>
+    public GameObject abilityAttack;
+    /// <summary> 回復アビリティオブジェクト </summary>
+    public GameObject abilityHeal;
+
+    // スクリプト
     PlayerController playerCon;
+    /// <summary> 攻撃アビリティスクリプト </summary>
+    AbilityAttackRangeController attackRangeController;
+    /// <summary> 回復アビリティスクリプト </summary>
+    AbilityHealRangeController healRangeController;
+
     public float jumpForce = 10.0f;
     public float jumpCooldown = 2.0f; // ジャンプのクールダウン時間
     public float dashSpeed = 30.0f; // 突進速度
@@ -24,6 +37,14 @@ public class AttackPattern1 : MonoBehaviour
        // 追加: ResizeDuringDash スクリプトを保持する変数
     private ResizeDuringDash resizeScript;
 
+    /// <summary> HPの最大値 </summary>
+    public int HPMax = 10;
+    /// <summary> HPの現在値 </summary>
+    public int HP = 10;
+
+    /// <summary> プレイ開始までの時間 </summary>
+    public float canPlayTime = 2;
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (isDashing && resizeScript != null)
@@ -33,6 +54,28 @@ public class AttackPattern1 : MonoBehaviour
                 dashAttackStop = true;
                 // 追加: サイズ変更処理を呼び出す
                resizeScript.StartResize();
+            }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "PlayerAttack")
+        {
+            HP -= playerCon.attackPower;
+        }
+        if (collision.gameObject.tag == "PlayerBreakAttack")
+        {
+            HP -= playerCon.breakPower;
+        }
+        if (collision.gameObject.tag == "PlayerAbilityAttack")
+        {
+            HP -= attackRangeController.power;
+        }
+        if (collision.gameObject.tag == "PlayerAbilityHeal")
+        {
+            if (HP < HPMax)
+            {
+                HP -= healRangeController.heal;
             }
         }
     }
@@ -84,8 +127,23 @@ public class AttackPattern1 : MonoBehaviour
             {
                 if(transform.position.y <= -1.15)
                 {
-                    playerCon.canPlay = true;
+                    canPlayTime -= Time.deltaTime;
+                    if(canPlayTime <= 0)
+                    {
+                        playerCon.canPlay = true;
+                    }
                 }
+            }
+
+            if (HP > HPMax)
+            {
+                HP = HPMax;
+            }
+
+            if (HP <= 0)
+            {
+                SceneManager.LoadScene("ClearScene");
+                Destroy(gameObject);
             }
 
             Debug.Log("dashAttackStop:" + dashAttackStop);

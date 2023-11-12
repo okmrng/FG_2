@@ -13,6 +13,7 @@ public class GameDirector : MonoBehaviour
 
     /// <summary> ゲージを増やしていく量 </summary>
     public float addWidth;
+    public float width = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +28,8 @@ public class GameDirector : MonoBehaviour
 
     private void FixedUpdate()
     {
-        abilityGage.GetComponent<Image>().fillAmount += addWidth;
+        width += addWidth;
+        abilityGage.GetComponent<Image>().fillAmount = width;
     }
 
     // HPアイコン管理

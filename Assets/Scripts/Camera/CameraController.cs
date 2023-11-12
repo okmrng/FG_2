@@ -35,6 +35,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // スクロールフラグ
         if ((player.transform.position.x < scrollXMinNon) || (player.transform.position.x > scrollXMaxNon))
         {
             moveCameraX = false;
@@ -54,14 +55,19 @@ public class CameraController : MonoBehaviour
             targetYPosition = player.transform.position.y; // カメラが移動するときに目標Y座標をプレイヤーのY座標に設定
         }
 
+        // スクロール
         if (moveCameraX)
         {
             transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
         }
         if (moveCameraY)
         {
-            float newY = Mathf.Lerp(transform.position.y, targetYPosition, cameraSpeed * Time.deltaTime);
-            transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+            if (player.transform.position.y > transform.position.y)
+            {
+                float newY = Mathf.Lerp(transform.position.y, targetYPosition, cameraSpeed * Time.deltaTime);
+                transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+            }
+            else { transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z); }
         }
         else
         {
@@ -69,6 +75,6 @@ public class CameraController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, newY, transform.position.z);
         }
 
-        Debug.Log(moveCameraX);
+        Debug.Log("カメラY:" + transform.position.y);
     }
 }

@@ -22,6 +22,11 @@ public class GameDirector : MonoBehaviour
 
     private void Update()
     {
+        //abilityGage.GetComponent<Image>().fillAmount += addWidth;
+    }
+
+    private void FixedUpdate()
+    {
         abilityGage.GetComponent<Image>().fillAmount += addWidth;
     }
 

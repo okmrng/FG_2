@@ -500,7 +500,7 @@ MonoBehaviour:
   - {fileID: 965984078}
   - {fileID: 62699647}
   - {fileID: 231914489}
-  addWidth: 0.0001
+  addWidth: 0.0003
 --- !u!4 &93900226
 Transform:
   m_ObjectHideFlags: 0
@@ -1284,7 +1284,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraSpeed: 5
   scrollXMinNon: -8.37
+  scrollXMaxNon: 201
   scrollXStart: -8.38
+  scrollXEnd: 200
 --- !u!1 &384647218
 GameObject:
   m_ObjectHideFlags: 0

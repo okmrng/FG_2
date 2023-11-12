@@ -126,6 +126,7 @@ MonoBehaviour:
   - {fileID: 0}
   abilityAttackPrefab: {fileID: 6106674225694241011, guid: 53ca706ed5cd295408b8496350762b3e, type: 3}
   abilityHealPrefab: {fileID: 6106674225694241011, guid: 2b4f60a122d806549a8954ca174fb329, type: 3}
+  idleSprite: {fileID: 21300000, guid: e36d79b34d07b294397e0548ec29c128, type: 3}
   attackSprite: {fileID: 21300000, guid: e563d62bafbac824b9be7486eaa1ee50, type: 3}
   moveSpeed: 5
   dashPower: 17

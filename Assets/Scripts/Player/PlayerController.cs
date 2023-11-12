@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
     AttackPattern1 bossScript;
 
     // スプライト
+    /// <summary> 通常モーション </summary>
+    public Sprite idleSprite;
     /// <summary> 攻撃モーション </summary>
     public Sprite attackSprite;
 
@@ -584,10 +586,14 @@ public class PlayerController : MonoBehaviour
         {
             // スプライトを攻撃モーションに切り替え
             spriteRenderer.sprite = attackSprite;
+
             attackModeChange = false;            
         }
         else
         {
+            // スプライトを元に戻す
+            spriteRenderer.sprite = idleSprite;
+
             attackModeChange = true;
         }
     }

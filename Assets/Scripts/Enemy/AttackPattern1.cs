@@ -6,60 +6,95 @@ public class AttackPattern1 : MonoBehaviour
 {
     GameObject player;
     PlayerController playerCon;
-     public float jumpForce = 10.0f;
+    public float jumpForce = 10.0f;
     public float jumpCooldown = 2.0f; // ジャンプのクールダウン時間
-    public float dashSpeed = 20.0f; // 突進速度
+    public float dashSpeed = 30.0f; // 突進速度
     public int maxJumps = 3; // 最大ジャンプ回数
-    //public BoxCollider2D collider; // 当たり判定コライダー
+    private bool dashAttackStop = false;
 
     private Rigidbody2D rb;
     private bool canJump = true;
     private int jumpCount = 0;
     private bool isDashing = false;
     private bool reachedEdge = false;
+    private bool isDashingToWall = false;
     private Vector3 initialPosition;
+    private Vector3 originalSize;
+    
+       // 追加: ResizeDuringDash スクリプトを保持する変数
+    private ResizeDuringDash resizeScript;
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (isDashing && resizeScript != null)
+        {
+            if (other.gameObject.tag == "Wall")
+            {
+                dashAttackStop = true;
+                // 追加: サイズ変更処理を呼び出す
+               resizeScript.StartResize();
+            }
+        }
+    }
 
     private void Start()
     {
         player = GameObject.Find("player");
-       playerCon = GetComponent<PlayerController>();
-      
+        playerCon = player.GetComponent<PlayerController>();
+
         rb = GetComponent<Rigidbody2D>();
         initialPosition = transform.position;
+        
+         // 追加: ResizeDuringDash スクリプトを取得
+        resizeScript = GetComponent<ResizeDuringDash>();
     }
 
-      private void Update()
+    private void Update()
     {
         if (player != null)
         {
-            if (!isDashing)
+            if (playerCon.canPlay)
             {
-                if (canJump)
+                if (!isDashing)
                 {
-                    JumpTowardsPlayer();
+                    if (canJump)
+                    {
+                        JumpTowardsPlayer();
+                    }
+                    if (jumpCount >= maxJumps)
+                    {
+                        isDashing = true;
+                        DashToEdge();
+                        // 追加: サイズ変更処理を突進中に制御する
+                        resizeScript.SetDashing(true);
+                    }
                 }
-                if (jumpCount >= maxJumps)
+                else if (isDashing && !reachedEdge)
                 {
-                    isDashing = true;
-                   // collider.size = new Vector2(collider.size.x, collider.size.y / 2f); // 縦の当たり判定を半分に
-                    DashToEdge();
+                    if (dashAttackStop)
+                    {
+                        isDashing = false;
+                        JumpBackToPlayer();
+                        // 追加: サイズ変更処理を突進中に制御する
+                        resizeScript.SetDashing(false);
+                    }
                 }
             }
-            else if (isDashing && !reachedEdge)
+            else
             {
-                // ボスが画面端に到達したら突進から横移動に切り替える
-                if (transform.position.x >= Screen.width)
+                if(transform.position.y <= -1.15)
                 {
-                    reachedEdge = true;
-                    HorizontalMovement();
+                    playerCon.canPlay = true;
                 }
             }
+
+            Debug.Log("dashAttackStop:" + dashAttackStop);
         }
     }
 
     void JumpTowardsPlayer()
     {
-        Vector3 direction = (player.transform.position - transform.position).normalized;
+        Vector3 direction = new Vector3(player.transform.position.x - transform.position.x, 0, 0).normalized;
         rb.velocity = Vector2.zero; // ジャンプする前に速度をリセット
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         rb.AddForce(direction * jumpForce, ForceMode2D.Impulse);
@@ -76,15 +111,22 @@ public class AttackPattern1 : MonoBehaviour
 
     void DashToEdge()
     {
-        Vector3 dashDirection = Vector3.right; // 画面端まで突進する方向（例として右に設定）
-        rb.velocity = dashDirection * dashSpeed;
+       //resizeScript.StartResize();
+        Vector3 dashDirection = new Vector3(player.transform.position.x - transform.position.x, 0, 0).normalized; // 自機の方向に向かって突進
+
+    rb.velocity = dashDirection * dashSpeed;
+
+  
     }
 
-    void HorizontalMovement()
+    void JumpBackToPlayer()
     {
-        Vector3 horizontalDirection = Vector3.right; // 横移動の方向（例として右に設定）
-        rb.velocity = horizontalDirection * dashSpeed;
+        reachedEdge = false;
+        dashAttackStop = false;
+        jumpCount = 0; // ジャンプ回数をリセット
+        isDashing = false;
+
+         // 追加: サイズ変更処理を停止
+            resizeScript.SetDashing(false);
     }
-
 }
-

@@ -121,6 +121,10 @@ public class PlayerController : MonoBehaviour
     // 向き
     /// <summary> 現在どっち向いているか </summary>
     public float distance = 0.8f;
+    /// <summary> 右向き </summary>
+    public float rightDistance = 0.8f;
+    /// <summary> 左向き </summary>
+    public float leftDistance = 0.8f;
     /// <summary> 現在どっち向いているかを判断する変数 //true = 右 false = 左// </summary>
     bool right = true;
 
@@ -595,12 +599,12 @@ public class PlayerController : MonoBehaviour
             // キーで向きを確認
             if (Input.GetKey(KeyCode.RightArrow) || horizontalInput > 0)
             {
-                distance = 0.8f;
+                distance = rightDistance;
                 right = true;
             }
             if (Input.GetKey(KeyCode.LeftArrow) || horizontalInput < 0)
             {
-                distance = -0.8f;
+                distance = leftDistance;
                 right = false;
             }
 

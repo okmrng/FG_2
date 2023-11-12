@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     // コンポーネント
     Rigidbody2D ridid2d;
     Renderer rendere;
+    SpriteRenderer spriteRenderer;
 
     // ゲームオブジェクト
     /// <summary> UIオブジェクト </summary>
@@ -41,6 +42,10 @@ public class PlayerController : MonoBehaviour
     GameDirector gameDirectorScript;
     /// <summary> ボス </summary>
     AttackPattern1 bossScript;
+
+    // スプライト
+    /// <summary> 攻撃モーション </summary>
+    public Sprite attackSprite;
 
     // 移動速度
     /// <summary> 移動速度 </summary>
@@ -197,6 +202,7 @@ public class PlayerController : MonoBehaviour
         // コンポーネント
         this.ridid2d = GetComponent<Rigidbody2D>();
         rendere = GetComponent<Renderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         // ゲームオブジェクト
         director = GameObject.Find("gameDirector");             // UI
@@ -576,6 +582,8 @@ public class PlayerController : MonoBehaviour
 
         if (isAttack)
         {
+            // スプライトを攻撃モーションに切り替え
+            spriteRenderer.sprite = attackSprite;
             attackModeChange = false;            
         }
         else
@@ -771,5 +779,9 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("自機HP: " + HP);
         Debug.Log("ダメージ: " + damage);
+        if (!attackSprite)
+        {
+            Debug.Log("スプライトがありません");
+        }
     }
 }

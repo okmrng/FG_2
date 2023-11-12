@@ -47,6 +47,9 @@ public class AttackPattern1 : MonoBehaviour
     /// <summary> プレイ開始までの時間 </summary>
     public float canPlayTime = 2;
 
+    /// <summary> 死亡フラグ </summary>
+    public bool isDeath = false;
+
     private void Start()
     {
         player = GameObject.Find("player");
@@ -145,8 +148,9 @@ public class AttackPattern1 : MonoBehaviour
 
             if (bossHPGage.GetComponent<Image>().fillAmount <= 0)
             {
-                SceneManager.LoadScene("ClearScene");
-                Destroy(gameObject);
+                isDeath = true;
+                //SceneManager.LoadScene("ClearScene");
+                //Destroy(gameObject);
             }
 
             Debug.Log("dashAttackStop:" + dashAttackStop);

@@ -76,9 +76,9 @@ public class PlayerController : MonoBehaviour
     /// <summary> HPの最大値 </summary>
     public int HPMAX = 5;
     /// <summary> HPの現在値 </summary>
-    public int HP = 5;
+    public static int HP = 5;
     /// <summary> ダメージを受けた時にHPアイコンを減らすための変数 </summary>
-    int damage = 0;
+    static int damage = 0;
 
     // 通常攻撃
     /// <summary> 通常攻撃フラグ </summary>
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
     /// <summary> 右向き </summary>
     public float rightDistance = 0.8f;
     /// <summary> 左向き </summary>
-    public float leftDistance = 0.8f;
+    public float leftDistance = -0.8f;
     /// <summary> 現在どっち向いているかを判断する変数 //true = 右 false = 左// </summary>
     bool right = true;
 
@@ -132,9 +132,9 @@ public class PlayerController : MonoBehaviour
     /// <summary> アビリティ発動フラグ </summary>
     public bool onAbility = false;
     /// <summary> アビリティ(攻撃)フラグ </summary>
-    bool isAbilityAttack = false;
+    public bool isAbilityAttack = false;
     /// <summary> アビリティ(回復)フラグ </summary>
-    bool isAbilityHeal = false;
+    public bool isAbilityHeal = false;
     /// <summary> アビリティ効果用の列挙体 </summary>
     enum ability
     {
@@ -184,6 +184,9 @@ public class PlayerController : MonoBehaviour
 
     /// <summary> 操作できるか確認するフラグ </summary>
     public bool canPlay = true;
+
+    /// <summary> 死亡フラグ </summary>
+    public bool death = false;
 
     void Start()
     {
@@ -318,6 +321,7 @@ public class PlayerController : MonoBehaviour
             // ゲームオーバー
             if (HP <= 0)
             {
+                death = true;
                 SceneManager.LoadScene("GameOver");
             }
         }
@@ -463,6 +467,7 @@ public class PlayerController : MonoBehaviour
         }
         if(other.gameObject.tag == "Killzone")
         {
+            death = true;
             SceneManager.LoadScene("GameOver");
         }
         if (other.gameObject.tag == "ToBoss1")
@@ -729,13 +734,11 @@ public class PlayerController : MonoBehaviour
         // アビリティ発動後
         if (isAbilityAttack)
         {
-            gameDirectorScript.width = 0;
             GameObject attackAbilityObj = Instantiate(abilityAttackPrefab);
             isAbilityAttack = false;
         }
         else if (isAbilityHeal)
         {
-            gameDirectorScript.width = 0;
             GameObject attackHealObj = Instantiate(abilityHealPrefab);
             isAbilityHeal = false;
         }

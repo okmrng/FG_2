@@ -4858,11 +4858,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5205253204661144278, guid: 549ead9cb5826bd4b984e1dd9e290200, type: 3}
       propertyPath: HP
-      value: 8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5205253204661144278, guid: 549ead9cb5826bd4b984e1dd9e290200, type: 3}
       propertyPath: HPMax
-      value: 8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5205253204661144278, guid: 549ead9cb5826bd4b984e1dd9e290200, type: 3}
       propertyPath: speed

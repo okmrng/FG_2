@@ -144,8 +144,8 @@ MonoBehaviour:
   Ground:
     serializedVersion: 2
     m_Bits: 8
-  HP: 8
-  HPMax: 8
+  HP: 2
+  HPMax: 2
 --- !u!1 &5205253205285898035
 GameObject:
   m_ObjectHideFlags: 0

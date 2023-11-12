@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
     public Sprite idleSprite;
     /// <summary> 攻撃モーション </summary>
     public Sprite attackSprite;
+    /// <summary> 破壊攻撃モーション </summary>
+    public Sprite breakSprite;
 
     // 移動速度
     /// <summary> 移動速度 </summary>
@@ -617,6 +619,9 @@ public class PlayerController : MonoBehaviour
 
         if (isBreak)
         {
+            // スプライトを破壊モーションに切り替え
+            spriteRenderer.sprite = breakSprite;
+
             isBacklash = true;
             backlash = backLashStatus;
 
@@ -624,6 +629,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // スプライトを元に戻す
+            spriteRenderer.sprite = idleSprite;
+
             attackModeChange = true;
         }
     }

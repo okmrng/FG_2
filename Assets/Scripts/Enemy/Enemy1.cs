@@ -136,7 +136,7 @@ public class Enemy1 : MonoBehaviour
         {
             if(HP < HPMax)
             {
-                HP -= abilityHealScript.heal;
+                HP += abilityHealScript.heal;
             }
         }
 
@@ -149,15 +149,6 @@ public class Enemy1 : MonoBehaviour
          else
         {
             transform.localScale = new Vector2(1,1);
-        }
-
-        if(other.gameObject.tag == "PlayerAttack")
-        {
-            HP -= playerCon.attackPower;
-        }
-        if (other.gameObject.tag == "PlayerBreakAttack")
-        {
-            HP -= playerCon.breakPower;
         }
     }
 }

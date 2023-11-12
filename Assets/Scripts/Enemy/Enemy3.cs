@@ -103,7 +103,7 @@ public class Enemy3 : MonoBehaviour
         {
             if (HP < HPMax)
             {
-                HP -= healRangeController.heal;
+                HP += healRangeController.heal;
             }
         }
     }

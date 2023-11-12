@@ -19,6 +19,11 @@ public class PlayerBreakAttackController : MonoBehaviour
     /// <summary> 消えるまでの時間の設定 </summary>
     public float breakEndTimeStatus = 1;
 
+    /// <summary> 出現位置X </summary>
+    public float instantX = 1.5f;
+    /// <summary> 出現位置X </summary>
+    public float instantY = 0.3f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,15 +37,15 @@ public class PlayerBreakAttackController : MonoBehaviour
         breakEndTime = breakEndTimeStatus;
 
         // 向きを確認して出現する位置を決める
-        if (playerScript.distance == 0.8f)
+        if (playerScript.distance == playerScript.rightDistance)
         {
-            transform.position = new Vector3(player.transform.position.x + 1,
-                player.transform.position.y + 0.3f, player.transform.position.z);
+            transform.position = new Vector3(player.transform.position.x + instantX,
+                player.transform.position.y, player.transform.position.z);
         }
-        else if (playerScript.distance == -0.8f)
+        else if (playerScript.distance == playerScript.leftDistance)
         {
-            transform.position = new Vector3(player.transform.position.x - 1,
-               player.transform.position.y + 0.3f, player.transform.position.z);
+            transform.position = new Vector3(player.transform.position.x - instantX,
+               player.transform.position.y, player.transform.position.z);
         }
     }
 

@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
     /// <summary> ジャンプボタンを押せるかのフラグ </summary>
     bool canPushJanp = true;
     /// <summary> 地面と接触しているか確認するためのフラグ </summary>
-    bool isGround = false;
+    public bool isGround = false;
 
     // HP
     /// <summary> HPの最大値 </summary>
@@ -275,7 +275,7 @@ public class PlayerController : MonoBehaviour
 
         // 自機が地面と触れているかチェック
         isGround = false;
-        isGround = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, LayerMask.GetMask("Ground"));
+        isGround = Physics2D.Raycast(transform.position, Vector2.down, 2.0f, LayerMask.GetMask("Ground"));
 
         // HPアイコン
         director.GetComponent<GameDirector>().HpIcons(damage);
@@ -635,7 +635,7 @@ public class PlayerController : MonoBehaviour
 
             if (distance != 0)
             {
-                transform.localScale = new Vector3(distance, 1.5f, 1);
+                transform.localScale = new Vector3(distance, 0.4f, 1);
             }
         }
     }

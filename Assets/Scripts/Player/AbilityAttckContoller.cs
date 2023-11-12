@@ -26,11 +26,11 @@ public class AbilityAttckContoller : MonoBehaviour
         playerScript = player.GetComponent<PlayerController>();
         transform.position = player.transform.position;
 
-        if(playerScript.distance == 0.8f)
+        if(playerScript.distance == playerScript.rightDistance)
         {
             speed = speedStatus;
         }
-        else if(playerScript.distance == -0.8f)
+        else if(playerScript.distance == playerScript.leftDistance)
         {
             speed = -speedStatus;
         }

@@ -131,7 +131,7 @@ public class AttackPattern1 : MonoBehaviour
             }
             else
             {
-                if(transform.position.y <= -1.15)
+                if(transform.position.y <= -1.02)
                 {
                     canPlayTime -= Time.deltaTime;
                     if(canPlayTime <= 0)

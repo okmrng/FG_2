@@ -17,7 +17,9 @@ public class CameraController : MonoBehaviour
     public float cameraSpeed = 5.0f; // カメラの移動速度
 
     public float scrollXMinNon = -8.37f;
+    public float scrollXMaxNon = 2.88f;
     public float scrollXStart = -8.38f;
+    public float scrollXEnd = 2.87f;
 
     // Start is called before the first frame update
     void Start()
@@ -33,11 +35,11 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.transform.position.x < scrollXMinNon)
+        if ((player.transform.position.x < scrollXMinNon) || (player.transform.position.x > scrollXMaxNon))
         {
             moveCameraX = false;
         }
-        if (player.transform.position.x >= scrollXStart)
+        if ((player.transform.position.x >= scrollXStart) && (player.transform.position.x <= scrollXEnd))
         {
             moveCameraX = true;
         }

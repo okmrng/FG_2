@@ -776,11 +776,13 @@ public class PlayerController : MonoBehaviour
         // アビリティ発動後
         if (isAbilityAttack)
         {
+            GameDirector.width = 0;
             GameObject attackAbilityObj = Instantiate(abilityAttackPrefab);
             isAbilityAttack = false;
         }
         else if (isAbilityHeal)
         {
+            GameDirector.width = 0;
             GameObject attackHealObj = Instantiate(abilityHealPrefab);
             isAbilityHeal = false;
         }
@@ -791,11 +793,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Debugg()
     {
-        Debug.Log("自機HP: " + HP);
-        Debug.Log("ダメージ: " + damage);
-        if (!attackSprite)
-        {
-            Debug.Log("スプライトがありません");
-        }
+        //Debug.Log("自機HP: " + HP);
+        //Debug.Log("ダメージ: " + damage);
+        //if (!attackSprite)
+        //{
+        //    Debug.Log("スプライトがありません");
+        //}
+        //
+        Debug.Log("アビリティ攻撃:" + isAbilityAttack);
+        Debug.Log("アビリティ回復:" + isAbilityHeal);
     }
 }

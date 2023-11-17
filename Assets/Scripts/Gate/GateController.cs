@@ -26,6 +26,6 @@ public class GateController : MonoBehaviour
         
         animator.SetBool("Close", onClose);
 
-        Debug.Log("onClose" + onClose);
+        //Debug.Log("onClose" + onClose);
     }
 }

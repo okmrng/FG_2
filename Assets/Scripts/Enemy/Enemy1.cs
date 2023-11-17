@@ -53,7 +53,6 @@ public class Enemy1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (!isToRight && player.transform.position.x > transform.position.x)
         {
             time++;

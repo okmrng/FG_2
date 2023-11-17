@@ -45,7 +45,7 @@ public class GameDirector : MonoBehaviour
 
     private void Update()
     {
-        if (playerController.isAbilityAttack || playerController.isAbilityHeal || playerController.death)
+        if (playerController.death)
         {
             width = 0;
         }

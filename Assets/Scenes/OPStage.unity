@@ -767,6 +767,7 @@ MonoBehaviour:
   - {fileID: 62699647}
   - {fileID: 231914489}
   addWidth: 0.0003
+  widthZero: 0
 --- !u!4 &93900226
 Transform:
   m_ObjectHideFlags: 0

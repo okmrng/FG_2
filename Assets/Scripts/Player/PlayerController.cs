@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D ridid2d;
     Renderer rendere;
     SpriteRenderer spriteRenderer;
+    Animator anim;
 
     // ゲームオブジェクト
     /// <summary> UIオブジェクト </summary>
@@ -197,6 +198,8 @@ public class PlayerController : MonoBehaviour
 
     /// <summary> 操作できるか確認するフラグ </summary>
     public bool canPlay = true;
+    /// <summary> 操作できるか確認するフラグ </summary>
+    public float cantPlayTime = 3;
 
     /// <summary> 死亡フラグ </summary>
     public bool death = false;
@@ -207,6 +210,7 @@ public class PlayerController : MonoBehaviour
         this.ridid2d = GetComponent<Rigidbody2D>();
         rendere = GetComponent<Renderer>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
 
         // ゲームオブジェクト
         director = GameObject.Find("gameDirector");             // UI
@@ -235,126 +239,140 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!onAbility && !isBacklash)
+        if (canPlay)
         {
-            if (!onKnockback)
+            if (!onAbility && !isBacklash)
             {
-                // 移動
-                Move();
-
-                // 向き
-                Distance();
-
-                // ジャンプ
-                if (canPushJanp)
+                if (!onKnockback)
                 {
-                    if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
+                    // 移動
+                    Move();
+
+                    // 向き
+                    Distance();
+
+                    // ジャンプ
+                    if (canPushJanp)
                     {
-                        ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && isGround)
+                        {
+                            ridid2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                        }
                     }
+                }
+
+                ridid2d.GetComponent<Rigidbody2D>().velocity = ridid2d.GetComponent<Rigidbody2D>().velocity;
+                ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
+            }
+            else
+            {
+                if (onAbility)
+                {
+                    // アビリティ選択中は自機を静止
+                    ridid2d.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                    ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
+                }
+                else
+                {
+                    ridid2d.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ridid2d.velocity.y);
+                    ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
                 }
             }
 
-            ridid2d.GetComponent<Rigidbody2D>().velocity = ridid2d.GetComponent<Rigidbody2D>().velocity;
-            ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
-        }
-        else
-        {
-            if (onAbility)
+            // 時間で反動フラグをfalseに
+            if (backlash <= 0)
             {
-                // アビリティ選択中は自機を静止
-                ridid2d.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                ridid2d.GetComponent<Rigidbody2D>().isKinematic = true;
+                isBacklash = false;
             }
-            else
+            if (backlash > 0 && !isBreak)
             {
-                ridid2d.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ridid2d.velocity.y);
-                ridid2d.GetComponent<Rigidbody2D>().isKinematic = false;
+                backlash -= Time.deltaTime;
             }
-        }
 
-        // 時間で反動フラグをfalseに
-        if (backlash <= 0)
-        {
-            isBacklash = false;
-        }
-        if (backlash > 0 && !isBreak)
-        {
-            backlash -= Time.deltaTime;
-        }
+            // 自機が地面と触れているかチェック
+            isGround = false;
+            isGround = Physics2D.Raycast(transform.position, Vector2.down, 2.0f, LayerMask.GetMask("Ground"));
 
-        // 自機が地面と触れているかチェック
-        isGround = false;
-        isGround = Physics2D.Raycast(transform.position, Vector2.down, 2.0f, LayerMask.GetMask("Ground"));
+            // HPアイコン
+            director.GetComponent<GameDirector>().HpIcons(damage);
 
-        // HPアイコン
-        director.GetComponent<GameDirector>().HpIcons(damage);
-
-        // 攻撃呼び出し
-        if (attackMode == AttackMode.NORMAL)
-        {
-            if (!isBacklash)
+            // 攻撃呼び出し
+            if (attackMode == AttackMode.NORMAL)
             {
-                // 通常攻撃
-                Attack();
+                if (!isBacklash)
+                {
+                    // 通常攻撃
+                    Attack();
+                }
             }
-        }
-        else if (attackMode == AttackMode.BREAK)
-        {
-            // 破壊攻撃
-            Break();
-        }
-
-        // 攻撃モード確認
-        if (attackModeChange)
-        {
-            if (Input.GetKey(KeyCode.Z) || Input.GetButton("Attack"))
+            else if (attackMode == AttackMode.BREAK)
             {
-                attackCharge += Time.deltaTime;
+                // 破壊攻撃
+                Break();
+            }
+
+            // 攻撃モード確認
+            if (attackModeChange)
+            {
+                if (Input.GetKey(KeyCode.Z) || Input.GetButton("Attack"))
+                {
+                    attackCharge += Time.deltaTime;
+                }
+                else { attackCharge = 0; }
+
+                if (attackCharge < attackChargeMax)
+                {
+                    // 通常攻撃
+                    attackMode = AttackMode.NORMAL;
+                }
+                else if (attackCharge >= attackChargeMax)
+                {
+                    // 破壊攻撃
+                    attackMode = AttackMode.BREAK;
+                }
+                else
+                {
+                    // 無し
+                    attackMode = AttackMode.NON;
+                }
             }
             else { attackCharge = 0; }
 
-            if (attackCharge < attackChargeMax)
-            {
-                // 通常攻撃
-                attackMode = AttackMode.NORMAL;
-            }
-            else if (attackCharge >= attackChargeMax)
-            {
-                // 破壊攻撃
-                attackMode = AttackMode.BREAK;
-            }
-            else
-            {
-                // 無し
-                attackMode = AttackMode.NON;
-            }
-        }
-        else { attackCharge = 0; }
+            // アビリティ
+            Ability();
 
-        // アビリティ
-        Ability();
-
-        // ゲームオーバー
-        if (HP <= 0)
-        {
-            death = true;
-        }
-
-        if (death)
-        {
-            HP = HPMAX;
-            damage = 0;
-            SceneManager.LoadScene("GameOver");
-        }
-        if (boss1)
-        {
-            if (bossScript.isDeath)
+            // ゲームオーバー
+            if (HP <= 0)
             {
+                death = true;
+            }
+
+            if (death)
+            {
+                GameDirector.width = 0;
                 HP = HPMAX;
                 damage = 0;
+                SceneManager.LoadScene("GameOver");
+            }
+            if (boss1)
+            {
+                if (bossScript.isDeath)
+                {
+                    HP = HPMAX;
+                    damage = 0;
+                }
             }
         }
+        else
+        {
+            cantPlayTime -= Time.deltaTime;
+            if(cantPlayTime < 0)
+            {
+                canPlay = true;
+            }
+        }
+
+        anim.SetFloat("charge", attackCharge);
 
         // デバッグ
         Debugg();
@@ -495,7 +513,7 @@ public class PlayerController : MonoBehaviour
                 noDamage = true;
             }
         }
-        if(other.gameObject.tag == "Killzone")
+        if (other.gameObject.tag == "Killzone")
         {
             death = true;
             SceneManager.LoadScene("GameOver");
@@ -507,6 +525,24 @@ public class PlayerController : MonoBehaviour
                 load.SetActive(true);
             }
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        //if (other.gameObject.tag == "Enemy")
+        //{
+        //    if (!noDamage)
+        //    {
+        //        HP -= 1;
+        //        damage += 1;
+        //        if (!onKnockback)
+        //        {
+        //            colPos = other.transform.position;
+        //            onKnockback = true;
+        //        }
+        //        noDamage = true;
+        //    }
+        //}
     }
 
     /// <summary>

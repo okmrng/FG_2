@@ -14,7 +14,7 @@ public class GameOverObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Attack"))
         {
             SceneManager.LoadScene("OPStage");
         }

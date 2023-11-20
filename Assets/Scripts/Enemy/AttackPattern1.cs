@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Windows.WebCam;
 
 public class AttackPattern1 : MonoBehaviour
 {
@@ -77,23 +78,26 @@ public class AttackPattern1 : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "PlayerAttack")
+        if (playerCon.canPlay)
         {
-           bossHPGage.GetComponent<Image>().fillAmount -= 0.05f;
-        }
-        if (collision.gameObject.tag == "PlayerBreakAttack")
-        {
-            bossHPGage.GetComponent<Image>().fillAmount -= 0.15f;
-        }
-        if (collision.gameObject.tag == "PlayerAbilityAttack")
-        {
-            bossHPGage.GetComponent<Image>().fillAmount -= 0.75f;
-        }
-        if (collision.gameObject.tag == "PlayerAbilityHeal")
-        {
-            if (bossHPGage.GetComponent<Image>().fillAmount < HPMax)
+            if (collision.gameObject.tag == "PlayerAttack")
             {
-                bossHPGage.GetComponent<Image>().fillAmount += 0.75f;
+                bossHPGage.GetComponent<Image>().fillAmount -= 0.05f;
+            }
+            if (collision.gameObject.tag == "PlayerBreakAttack")
+            {
+                bossHPGage.GetComponent<Image>().fillAmount -= 0.15f;
+            }
+            if (collision.gameObject.tag == "PlayerAbilityAttack")
+            {
+                bossHPGage.GetComponent<Image>().fillAmount -= 0.75f;
+            }
+            if (collision.gameObject.tag == "PlayerAbilityHeal")
+            {
+                if (bossHPGage.GetComponent<Image>().fillAmount < HPMax)
+                {
+                    bossHPGage.GetComponent<Image>().fillAmount += 0.75f;
+                }
             }
         }
     }
@@ -126,17 +130,6 @@ public class AttackPattern1 : MonoBehaviour
                         JumpBackToPlayer();
                         // 追加: サイズ変更処理を突進中に制御する
                         resizeScript.SetDashing(false);
-                    }
-                }
-            }
-            else
-            {
-                if(transform.position.y <= -1.02)
-                {
-                    canPlayTime -= Time.deltaTime;
-                    if(canPlayTime <= 0)
-                    {
-                        playerCon.canPlay = true;
                     }
                 }
             }

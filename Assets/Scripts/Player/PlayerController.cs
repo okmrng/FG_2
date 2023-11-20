@@ -520,6 +520,8 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.tag == "ToBoss1")
         {
+            OPStageDirector.retryPointer = true;
+
             if (load)
             {
                 load.SetActive(true);

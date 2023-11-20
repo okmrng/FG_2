@@ -16,6 +16,10 @@ public class GameOverObject : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Attack"))
         {
+            if (OPStageDirector.retryPointer)
+            {
+                SceneManager.LoadScene("Boss1Scene");
+            }
             SceneManager.LoadScene("OPStage");
         }
     }

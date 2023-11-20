@@ -789,6 +789,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8748171406788933398, guid: 70016727d011c244eb019f981509e9df, type: 3}
+      propertyPath: canPlay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8748171406788933398, guid: 70016727d011c244eb019f981509e9df, type: 3}
+      propertyPath: cantPlayTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8748171406788933401, guid: 70016727d011c244eb019f981509e9df, type: 3}
       propertyPath: m_RootOrder
       value: 1
